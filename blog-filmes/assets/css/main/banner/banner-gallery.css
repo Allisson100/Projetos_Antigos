@@ -1,0 +1,22 @@
+#radio1:checked ~ .first {
+    margin-left: 0;
+}
+
+#radio2:checked ~ .first {
+    margin-left: -25%;
+}
+
+#radio3:checked ~ .first {
+    margin-left: -50%;
+}
+
+
+.banner-gallery {
+    width: 400%;
+    height: 26.563rem;
+    display: flex;
+}
+
+.banner-gallery input {
+    display: none;
+}

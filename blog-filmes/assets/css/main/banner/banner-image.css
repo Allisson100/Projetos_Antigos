@@ -1,0 +1,9 @@
+.banner-image {
+    width: 25%;
+    position: relative;
+    transition: 2s;
+}
+
+.banner-image img {
+    width: 75rem;
+}
