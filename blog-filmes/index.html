@@ -13,14 +13,16 @@
     <link rel="stylesheet" href="./assets/css/header/menu-item.css">
     <link rel="stylesheet" href="./assets/css/header/menu-link.css">
 
-    <link rel="stylesheet" href="./assets/css/main/banner/banner.css">
-    <link rel="stylesheet" href="./assets/css/main/banner/banner-carousel.css">
-    <link rel="stylesheet" href="./assets/css/main/banner/banner-title.css">
-    <link rel="stylesheet" href="./assets/css/main/banner/banner-subtitle.css">
-    <link rel="stylesheet" href="./assets/css/main/banner/banner-effects.css">
-    <link rel="stylesheet" href="./assets/css/main/banner/banner-gallery.css">
-    <link rel="stylesheet" href="./assets/css/main/banner/banner-image.css">
-    <link rel="stylesheet" href="./assets/css/main/banner/banner-navigation.css">
+    <link rel="stylesheet" href="./assets/css/main/Section_Background/background/background.css">
+    <link rel="stylesheet" href="./assets/css/main/Section_Background/background/background-effects.css">
+    <link rel="stylesheet" href="./assets/css/main/Section_Background/carousel/carousel.css">
+    <link rel="stylesheet" href="./assets/css/main/Section_Background/carousel/carousel-image.css">
+    <link rel="stylesheet" href="./assets/css/main/Section_Background/carousel/carousel-title.css">
+    <link rel="stylesheet" href="./assets/css/main/Section_Background/carousel/carousel-description.css">
+    <link rel="stylesheet" href="./assets/css/main/Section_Background/title/main-title.css">
+    <link rel="stylesheet" href="./assets/css/main/Section_Background/title/main-subtitle.css">
+
+    <link rel="stylesheet" href="./assets/css/main/Section_Content/content/content.css">
 
     <title>Blog Filmes</title>
 </head>
@@ -38,45 +40,26 @@
     </header>
 
     <main class="main">
-        <section class="banner">
-            <div class="banner-effects">
-                <h2 class="banner-title">Seja Bem-Vindo ao Blog Filmes</h2>
-                <h3 class="banner-subtitle">Se você gosta muito de filmes está no local certo</h3>
+        <section class="background">
+            <div class="background-effects">
+                <h2 class="main-title">Seja Bem-Vindo ao Blog Filmes</h2>
+                <h3 class="main-subtitle">Se você gosta muito de filmes está no local certo</h3>
 
-                <div class="banner-carousel">
-                    <div class="banner-gallery">
+                <figure class="carousel">
+                    <img class="carrousel-image selected" src="./assets/img/banner/hp.png" alt="Banner Harry potter">
+                    <img class="carrousel-image" src="./assets/img/banner/hg.png" alt="Banner Jogos Vorazes">
+                    <img class="carrousel-image" src="./assets/img/banner/vf.png" alt="Banner Velozes e furioso">
 
-                        <input type="radio" name="radio-button" id="radio1">
-                        <input type="radio" name="radio-button" id="radio2">
-                        <input type="radio" name="radio-button" id="radio3">
-
-                        <div class="banner-image first">
-                            <img  src="./assets/img/banner/hp-01.png" alt="Banner Harry Potter">
-                        </div>
-
-                        <div class="banner-image">
-                            <img src="./assets/img/banner/jv-02.png" alt="Banner Jogo Vorazes">
-                        </div>
-
-                        <div class="banner-image">
-                            <img src="./assets/img/banner/vf-03.png" alt="Banner Velozes e Furiosos">
-                        </div>
-
-                        <div class="banner-navigation">
-                            <div class="auto-btn1"></div>
-                            <div class="auto-btn2"></div>
-                            <div class="auto-btn3"></div>
-                        </div>
-
+                    <div class="carousel-description">
+                        <h2 class="carousel-title">Reviews recentes</h2>
                     </div>
 
-                    <div class="banner-manual-navigation">
-                        <label for="radio1" class="manual-btn"></label>
-                        <label for="radio2" class="manual-btn"></label>
-                        <label for="radio3" class="manual-btn"></label>
-                    </div>
-                </div>
+                </figure>
             </div>
+        </section>
+
+        <section class="content">
+
         </section>
     </main>
 

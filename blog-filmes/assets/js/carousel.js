@@ -1,18 +1,22 @@
-let count = 1;
+const time = 4000;
 
-document.getElementById("radio1").checked = true;
+const images = document.querySelectorAll(".carousel img");
 
-setInterval(function () {
+var currentImage = 0;
+var max = images.length;
+
+setInterval(() => {
     nextImage();
-}, 4000)
+}, time)
 
+function nextImage() {
+    images[currentImage].classList.remove("selected");
 
+    currentImage++;
 
-function nextImage(){
-    count++;
-    if(count > 4) {
-        count = 1;
+    if(currentImage >= max) {
+        currentImage = 0;
     }
 
-    document.getElementById("radio" + count).checked = true;
+    images[currentImage].classList.add("selected");
 }

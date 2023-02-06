@@ -1,0 +1,12 @@
+.carousel-description {
+    position: absolute;
+
+    left: 0.05%;
+    top: 87%;
+
+    border-top: 5px dashed black;
+    border-bottom: 5px dashed black;
+
+    width: 74.9rem;
+    height: 2.8rem;
+}
