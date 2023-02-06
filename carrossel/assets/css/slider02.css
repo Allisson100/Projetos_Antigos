@@ -1,0 +1,26 @@
+.settings {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel {
+    width: 750px;
+    height: 250px;
+    position: relative;
+
+
+}
+
+.image {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 1000ms;
+}
+
+.image.selected {
+    opacity: 1;
+}
