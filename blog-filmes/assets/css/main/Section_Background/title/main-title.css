@@ -1,4 +1,5 @@
 .main-title{
-    color: white;
+    color: var(--main-title-color);
     font-size: 4rem;
+    font-family: var(--main-title-font);
 }

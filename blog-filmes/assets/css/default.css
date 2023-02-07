@@ -1,0 +1,31 @@
+:root {
+    /* -------------------------- Cores --------------------------*/
+
+    /* header */
+        --menu-background-color: #000;
+        --menu-link-color: #fff;
+        --menu-link-font: 'Times New Roman', Times, serif;
+
+    /* main */
+        /* Section_Background */
+            /* background */
+                --background-effects-color: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,5));
+            
+            /* carousel */
+                --carousel-border-color: #000;
+                --carousel-title-color: #b21515;
+                --carousel-title-font: 'Times New Roman', Times, serif;
+            
+            /* title */
+                --main-title-color: #fff;
+                --main-title-font: 'Lobster', cursive,'Times New Roman', Times, serif;
+                --main-subtitle-color: #fff;
+                --main-subtitle-font: 'Lobster', cursive,'Times New Roman', Times, serif;
+
+        
+        
+        /* Section_Background */
+            /* category */
+                --category-background-color: #000;
+
+}

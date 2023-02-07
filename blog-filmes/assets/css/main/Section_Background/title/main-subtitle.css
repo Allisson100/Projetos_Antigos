@@ -1,5 +1,6 @@
 .main-subtitle {
-    color: white;
+    color: var(--main-subtitle-color);
     font-size: 2.5rem;
     margin-bottom: 1.5rem;
+    font-family: var(--main-subtitle-font);
 }

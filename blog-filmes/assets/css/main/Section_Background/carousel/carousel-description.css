@@ -4,8 +4,8 @@
     left: 0.05%;
     top: 87%;
 
-    border-top: 5px dashed black;
-    border-bottom: 5px dashed black;
+    border-top: 5px dashed var(--carousel-border-color);
+    border-bottom: 5px dashed var(--carousel-border-color);
 
     width: 74.9rem;
     height: 2.8rem;

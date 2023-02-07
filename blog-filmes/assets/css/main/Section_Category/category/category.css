@@ -1,0 +1,6 @@
+.category {
+    width: 100%;
+    height: 1000px;
+
+    background-color: var(--category-background-color);
+}
