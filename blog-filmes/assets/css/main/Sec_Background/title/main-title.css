@@ -1,5 +1,5 @@
 .main-title{
     color: var(--main-title-color);
-    font-size: 4rem;
     font-family: var(--main-title-font);
+    font-size: 4rem;
 }

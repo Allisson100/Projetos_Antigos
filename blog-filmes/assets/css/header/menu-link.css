@@ -1,6 +1,6 @@
 .menu-link {
-    text-decoration: none;
     color: var(--menu-link-color);
-    font-size: 1.5rem;
     font-family: var(--menu-link-font);
+    font-size: 1.5rem;
+    text-decoration: none;
 }

@@ -17,15 +17,27 @@
                 --carousel-title-font: 'Times New Roman', Times, serif;
             
             /* title */
-                --main-title-color: #fff;
-                --main-title-font: 'Lobster', cursive,'Times New Roman', Times, serif;
                 --main-subtitle-color: #fff;
                 --main-subtitle-font: 'Lobster', cursive,'Times New Roman', Times, serif;
+                --main-title-color: #fff;
+                --main-title-font: 'Lobster', cursive,'Times New Roman', Times, serif;
 
         
         
-        /* Section_Background */
+        /* Section_Category */
             /* category */
                 --category-background-color: #000;
+                --category-title-color: #fff;
+                --category-title-font: 'Lobster', cursive,'Times New Roman', Times, serif;
 
+            /* swiper */
+
+                --swiper-button-background-color: #000;
+                --swiper-button-next-color: #b21515;
+                --swiper-button-prev-color: #b21515;
+
+}
+
+body {
+    background-color: black;
 }
