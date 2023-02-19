@@ -20,6 +20,10 @@ const app = express();
 
 //Others
 
+app.get("/", (req, res) => {
+    res.send("Seja Bem-Vindo ao site!!!")
+})
+
 const PORT = 8081;
 app.listen(PORT, () => {
     console.log("Servidor rodando!");
