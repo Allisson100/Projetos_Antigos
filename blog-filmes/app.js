@@ -2,6 +2,7 @@ const express = require('express');
 const handlebars = require('express-handlebars');
 const bodyParser = require('body-parser');
 const app = express();
+const admin = require('./routes/admin');
 // const mongoose = require('mongoose');
 
 //Settings
@@ -17,11 +18,12 @@ const app = express();
         //Em breve
 
 // Routes
+    app.use('/admin', admin);
 
 //Others
 
 app.get("/", (req, res) => {
-    res.send("Seja Bem-Vindo ao site!!!")
+    res.send("Seja Bem-Vindo ao site!!!");
 })
 
 const PORT = 8081;

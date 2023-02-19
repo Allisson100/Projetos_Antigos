@@ -73,3 +73,77 @@ Estrutura do arquivo main.handlebars:
     </body>
     </html>
 
+### Criar rotas para ADM
+
+Agora vou criar um novo arquivo chamado admin.js para separar as rotas do admin.
+
+E também vou criar uma pasta chamada routes e colocar o arquivo admin.js lá dentro.
+
+Precisamos usar a biblioteca Router, pois como vamos usar arquivos diferentes para organizar as rotas do projeto, precisamos de uma biblioteca para nos ajudar a utilizar determinadas rotas em arquivos diferentes.
+
+Então no arquivo admin.js digitamos:
+
+    const express = require('express');
+    const router = express.Router();
+
+    module.exports = router;
+
+Requisitamos o express para o arquivo e requisitamos o router.
+
+Agora se nós fomos rodamos o app.js no nodemon ele ainda não vai reconhecer as rotas do admin.js, pois não imortamos ela ainda no arquivo app.js.
+
+Para isso no arquivo app.js acrescentamos umas constante
+
+    const admin = require('./routes/admin');
+
+E na configuração de rotas digitamos:
+
+    app.use('/admin', admin);
+
+O arquivo app.js tem como código completo até agora:
+
+    const express = require('express');
+    const handlebars = require('express-handlebars');
+    const bodyParser = require('body-parser');
+    const app = express();
+    const admin = require('./routes/admin');
+    // const mongoose = require('mongoose');
+
+    //Settings
+        //Body Parser
+            app.use(express.urlencoded({extended:true}));
+            app.use(express.json());
+        
+        //Handlebars
+            app.engine('handlebars', handlebars.engine({defaultLayout: 'main'}));
+            app.set('view engine', 'handlebars');
+
+        // Mongoose
+            //Em breve
+
+    // Routes
+        app.use('/admin', admin);
+
+    //Others
+
+    app.get("/", (req, res) => {
+        res.send("Seja Bem-Vindo ao site!!!");
+    })
+
+    const PORT = 8081;
+    app.listen(PORT, () => {
+        console.log("Servidor rodando!");
+    });
+
+Lembrando que agora para adicionarmos alguma rota no arquivo admin.js devemos usar a biblioteca router, exemplo:
+
+    const express = require('express');
+    const router = express.Router();
+
+    router.get("/", (req,res) => [
+        res.send("Essa é apágina do ADMIN!!")
+    ])
+
+    module.exports = router;
+
+
