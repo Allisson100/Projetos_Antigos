@@ -35,6 +35,17 @@
                 --swiper-button-background-color: #000;
                 --swiper-button-next-color: #b21515;
                 --swiper-button-prev-color: #b21515;
+    
+    /* ADM */
+        --adm-title-color: #fff;
+        --adm-title-font:'Lobster', cursive,'Times New Roman', Times, serif;
+        --adm-lable-color: #fff;
+        --adm-lable-font: 'Lobster', cursive,'Times New Roman', Times, serif;
+
+        --adm-button-color: #fff;
+        --adm-button-background-color: #b21515;
+        --adm-button-font: 'Lobster', cursive,'Times New Roman', Times, serif;
+
 
 }
 

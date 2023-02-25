@@ -1,0 +1,46 @@
+.adm-title {
+    color: var(--adm-title-color);
+    font-family: var(--adm-title-font);
+    font-size: 3rem;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    text-align: center;
+}
+
+.adm {
+    height: auto;
+    width: 100%;
+}
+
+.adm-form {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.adm-lable {
+    color: var(--adm-lable-color);
+    font-family: var(--adm-lable-font);
+    font-size: 2rem;
+    padding-bottom: 1rem;
+}
+
+.adm-button {
+    width: 15%;
+    height: auto;
+    padding: .7rem;
+    color: var(--adm-button-color);
+    background-color: var(--adm-button-background-color);
+    font-family: var(--adm-button-font);
+    border-radius: 1rem;
+    font-size: 1.5rem;
+}
+
+.adm-button:hover {
+    cursor: pointer;
+}
+
+
+.adm-lable {
+    color: white;
+}

@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const admin = require('./routes/admin');
 const path = require('path');
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 //Settings
     //Body Parser
@@ -16,7 +16,12 @@ const path = require('path');
         app.set('view engine', 'handlebars');
 
     // Mongoose
-        //Em breve
+        mongoose.Promise = global.Promise;
+        mongoose.connect('mongodb://127.0.0.1:27017/blog-filmes').then(() => {
+            console.log("Connect to Mongo");
+        }).catch((err) => {
+            console.log("Failed to connect Mongo" + err);
+        })
     
     //Public
         app.use(express.static(path.join(__dirname, 'public')));
@@ -24,7 +29,7 @@ const path = require('path');
 // Routes
 
     app.get("/", (req, res) => {
-        res.render("index");
+        res.render('index');
     })
 
     app.use('/admin', admin);
@@ -35,5 +40,5 @@ const path = require('path');
 
 const PORT = 8081;
 app.listen(PORT, () => {
-    console.log("Servidor rodando!");
+    console.log("Server running!");
 });

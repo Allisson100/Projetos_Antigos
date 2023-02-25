@@ -202,6 +202,110 @@ Também lembrando que caso quisermos uma configuração padrõa em todos as pág
 
         app.use('/admin', admin);
 
+### Criando a primeira parte do ADMIN, que será a parte de criar categorias
+
+Vamos term uma página inicial onde ele poderá escolher qual parte do site ele quer mexer e ai ao clicar no botão ele será redicrecionado para uma parte específica.
+
+Vamos começar pela parte de categorias.
+
+No arquivo admin.js vamos criar as rotas:
+
+    router.get('/add', (req, res) => {
+        res.render('admin/add');
+    })
+
+    router.get('/add/category', (req, res) => {
+        res.render('admin/addcategory')
+    })
+
+A primeira rota vai renderizar a página orincipla do ADMIN que por enquanto só vai ter o botão de categorias.
+
+A segunda rota vai mostrar uma página mais completa para a parte de categorias.
+
+Vamos criar uma pasta chamada admin dentro da pasta views e colocar nossos arquivos handlebars lá.
+
+Vamos criar um html simples da página add:
+
+    <h2 class="adm-title">Aqui você poderá editar seu website</h2>
+
+    <section class="adm">
+        
+        <form class="adm-form" action="/admin/add/category" method="get">
+            <label class="adm-lable" for="category">Add new category:</label>
+            <input class="adm-button" type="submit" name="category" id="category" value="New Category">
+        </form>
+    </section>
+
+Então na página add criamos apenas um formulário simples e linkamos o botão para a página addcategory.
+
+Também adicionamos o link ADMIN la navbar.
+
+Agora precisamos criar um banco de dados para cadastrar as cetegorias e para isso vamos utilizar o mongoose.
+
+Vamos requista-lo e configura-lo no arquivo app.js:
+
+    const mongoose = require('mongoose');
+
+    // Mongoose
+    mongoose.Promise = global.Promise;
+    mongoose.connect('mongodb://127.0.0.1:27017/blog-filmes').then(() => {
+        console.log("Connect to Mongo");
+    }).catch((err) => {
+        console.log("Failed to connect Mongo" + err);
+    })
+
+Agora vamos criar o model de categorias. Primeiro vamos criar uma pasta nova chamada models e dentro dessa pasta vamos criar o arquivo Categoria.js, no plural e primeira maiúscula por organização.
+
+Dentro do arquivo Categoria.js digitamos:
+
+    const mongoose = require('mongoose');
+    const Schema = mongoose.Schema;
+
+    const Categoria = new Schema ({
+        name: {
+            tyupe: String,
+            required: true
+        },
+
+        slug: {
+            type: String,
+            required:true
+        },
+
+        date : {
+            type: Date,
+            default: Date.now()
+        }
+    })
+
+    mongoose.model("categorias", Categoria);
+
+Agora vamos cadastrar a categoria dentro do banco de dados.
+
+Para isso dentro do arquivo admin.js digitamos:
+
+    const mongoose = require('mongoose');
+    require ('../models/Cateogry');
+    const Category = mongoose.model('categories');
+
+    router.post('category/newcategory', (req, res) => {
+        const newCategory = {
+            name: req.body.name,
+            slug: req.body.slug
+        }
+
+        new Category(newCategory).save.then(() => {
+            console.log("Category saved sucessfully");
+        }).catch((err) => {
+            console.log("Failed to save new category");
+        })
+    })
+
+Basicamente requisitamos o mongoose e o model Category no arquivo e criamos uma nova rota do tipo post para que podemos enviar as informações da página para o banco de dados.
+
+
+
+
 
 
 
