@@ -303,6 +303,43 @@ Para isso dentro do arquivo admin.js digitamos:
 
 Basicamente requisitamos o mongoose e o model Category no arquivo e criamos uma nova rota do tipo post para que podemos enviar as informações da página para o banco de dados.
 
+Agora vamos configurar sessões para páginas e um middleware que avisará o ADMIN se as categorias foram cadastradas com sucesso ou se teve algum erro.
+
+Primeiro vamos instalar mais dois módulos:
+
+    npm install --save express-session
+
+    npm install --save connect-flash
+
+Agora vamos carrega-lo no arquivo app.js:
+
+    const session = require('express-session');
+    const flash = require('connect-flash');
+
+A agora vamos configurar a sessão:
+
+    //Session
+        app.use(session({
+            secret: 'blogfilmes',
+            resave: true,
+            saveUninitialized: true
+        }))
+        app.use(flash());
+
+E agora o middleware:
+
+    // Middleware
+        app.use((req, res, next) => {
+            res.locals.sucess_msg = req.flash("sucess_msg");
+            res.locals.error_msg = req.flash("error_msg");
+            next();
+        })
+
+O middleware serve como um "observador", quando o adm tentar criar uma nova categoria, esse porcesso da rota chegar ao banco de dados no meio dela vai ter o middleware e com isso ele consegue saber se houve algum errou ou não com o cadastro e assim ele passa para as variáveis globais sucess_msg e error_msg ou valores que passaremos no futuro do projeto e com isso podemos utilizar essas variavéis em nossas páginas para avisar ao usuário se houve algum erro ou não.
+
+Lembrando que quando utilizamos um middleware temos que utilizar o next().
+
+
 
 
 

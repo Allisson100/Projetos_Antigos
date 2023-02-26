@@ -5,6 +5,8 @@ const app = express();
 const admin = require('./routes/admin');
 const path = require('path');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 //Settings
     //Body Parser
@@ -25,6 +27,21 @@ const mongoose = require('mongoose');
     
     //Public
         app.use(express.static(path.join(__dirname, 'public')));
+
+    //Session
+        app.use(session({
+            secret: 'blogfilmes',
+            resave: true,
+            saveUninitialized: true
+        }))
+        app.use(flash());
+    
+    // Middleware
+        app.use((req, res, next) => {
+            res.locals.sucess_msg = req.flash("sucess_msg");
+            res.locals.error_msg = req.flash("error_msg");
+            next();
+        })
 
 // Routes
 
