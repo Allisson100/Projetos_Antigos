@@ -339,6 +339,234 @@ O middleware serve como um "observador", quando o adm tentar criar uma nova cate
 
 Lembrando que quando utilizamos um middleware temos que utilizar o next().
 
+Agora vou validar o formulário no express.
+
+Temos que basicamoente criar algumas condições na rota post das categorias no arquivo admin.js:
+
+    var erros = [];
+
+    if(!req.body.name || typeof req.body.name == undefined || req.body.name == null) {
+        erros.push({texto: "Invalid name"});
+    }
+
+    if(!req.body.slug || typeof req.body.slug == undefined || req.body.slug == null) {
+        erros.push({texto: "Invlid slug"});
+    }
+
+    if (erros.length > 0) {
+        res.render("addcategory", {erros: erros});
+    } 
+
+Aqui basicamente criamos uma array com o nome erros e abaixo tem as condições. Caso o usuário nã escreva o slug ou nome e caso algum dele stenha algum valor undefined ou null ele coloca no array erros a mensagem de erros o que faria com que o array tenha um length maior que zero. 
+Se tiver array maior que zero ele vai rendenizar a página addcategory com a mensagem de erro.
+
+E tomo como código na rota o seguinte:
+
+    router.post('category/newcategory', (req, res) => {
+
+        var error = [];
+
+        if(!req.body.name || typeof req.body.name == undefined || req.body.name == null) {
+            error.push({texto: "Invalid name"});
+        }
+
+        if(!req.body.slug || typeof req.body.slug == undefined || req.body.slug == null) {
+            error.push({texto: "Invlid slug"});
+        }
+
+        if (error.length > 0) {
+            res.render("addcategory", {error: error});
+        } else {
+            const newCategory = {
+                name: req.body.name,
+                slug: req.body.slug
+            }
+
+            new Category(newCategory).save.then(() => {
+                req.flash('sucess_msg', "Category created successfully");
+                res.redirect('/admin/addcategory');
+            }).catch((err) => {
+                req.flash('error_msg', "Error to create a new category, try again");
+                res.redirect('/admin/add');
+            })
+        }
+    })
+
+Adicionamos o req.flash para exibir as mensagens de sucesso ou erro.
+
+Agora temos que passar essas mensagem de erros na página addcategory.handlebars. Para isso basta criar uma nova partial chamado _msg.handlebars.
+
+No arquivos _msg.handlebars temos:
+
+    {{#if success_msg}}
+        <div class="alert-success">{{success_msg}}</div>
+    {{/if}}
+
+    {{#if error_msg}}
+        <div class="alert-danger">{{error_msg}}</div>
+    {{/if}}
+
+E no arquivo addcategory fica:
+
+    {{#each error}}
+        <div class="alert-danger">{{texto}}</div>
+    {{else}}
+
+    {{/each}}
+
+E no arquivo main.handlebars digitamos:
+    
+    <body>
+        {{>_msg}}
+        {{{body}}}
+    </body>
+
+Então agora vamos explicar o código passo a passo, pois está um pouco confuso.
+
+Primeiro criamos a rota do tipo post para enviar a categoria para o banco de dados.
+
+Depois instalamos a session para que junto com o middleware ela possa me retornar mensagens dizendo se está tudo ok com o cadastro da nova categoria ou se deu algum erro.
+
+Ainda na rota do tipo post ('category/newcategory'), falamos que caso os campos do formulário(vamos fazer o formulário ainda de categorias) não estejam preenchidos corretamente ele vai colocar no array error um texto com as mensagens Invalid name ou Invalid slug. Já que sabemos que houve um erro com a expressão if (error.length > 0) então vamos rendenizar a página addcategory.handlebars mandando junto a variável error que contém as mensagens Invalid name ou Invalid slug. E para que o arquivo html/handlebars do addcategory interprete essa variável error temos que colocar a seguinte estrutura no arquivo:
+
+    {{#each error}}
+        <div class="alert-danger">{{texto}}</div>
+    {{else}}
+
+    {{/each}}
+
+Beleza, então já entendemos como o usuário vai receber as mensagens de erro se ele colocar dados inválidos no formulario de cadastro das categorias.
+
+Agora vamos entender caso aconteça ou não um erro na parte de cadastro dentro do banco de dados.
+
+Vamos entender primeiro que o flash é um tipo de sessão que só aparece uma vez, quando a pessoa for recarregar a página ele desaparece.
+
+Após o else significa que todos os IFs anteriores foram corretos, então no else pegamos o nome e o slug que o usuário digitou e salvamos no banco de dados com o new Category(newCategory).save, porém utilizamos um .then() e um .catch() para sabermos se nesse processo de salvamento houve algum erro ou não. Então no .then()(que significa que houve sucesso) colocamos req.flash('sucess_msg', "Category created successfully"), ou seja, se houve sucesso faça com que a variável sucess_msg passe a valer Category created successfully e depois redirecione o usuário para a rota req.redirect('/admin/addcategory').
+Caso tenha algum erro no processo de salvamento utilizamos o .catch() onde ele está dizendo para que a variável 'error_msg' tenha o valor Error to create a new category, try again. E redirecione o usuário para a rota /admin/add.
+
+Agora precisamos criar uma partial para essa mensagem, pois futuramente utilizaremos ela para exibir ao usuario qualquer mensagem de erro ou sucesso em futuros cadastros. Para isso temos que criarmos uma div simples na partial junto com uma estrutura de condição do handlebars:
+
+    {{#if success_msg}}
+        <div class="alert-success">{{success_msg}}</div>
+    {{/if}}
+
+    {{#if error_msg}}
+        <div class="alert-danger">{{error_msg}}</div>
+    {{/if}}
+
+Aqui é um html simples onde com a classe alert-sucess e alert-danger personalizamos a mensagem como queremos.
+Depois utilizamos a estrutura de condições do handlebars para dizer que, caso receber uma sucess_msg apareça da seguinte forma, se aparecer com o error_msg apareça de outra forma.
+
+Aqui temos uma estrutura diferente, pois na parte de validação nós carregamos a página addcategory junto com as variáveis, aqui nós estamos apenas redirecionando o usuário para uma determinada rota, pois as variáveis sucess_msg e error_msg serão carregadas em uma partial e essa partial estará no arquivo main.handlebars, ou seja, essas variáveis serão utilizadas em todas as páginas do projeto, de maneira global.
+
+Por isso que no arquivo main.handlebars adicionamos:
+
+    <body>
+        {{>_msg}}
+        {{{body}}}
+    </body>
+
+E com isso entendemos um pouco como funciona essa parte de enviarmos variáveis para os arquivos html. Por isso utilizamos o handlebars, pois ele no permite essa função.
+
+### Criando formulário de categorias
+
+Devia ter feito o formulário antes de criar as rotas para ele, mas não tem problema vou criar-lo agora.
+
+Para isso no arquivo addcategory digitamos:
+
+{{#each error}}
+    <div class="alert-danger">{{texto}}</div>
+{{else}}
+    
+{{/each}}
+
+    <section class="categoryForm">
+        <h3 class="categoryForm-subtitle">New Category</h3>
+        <form class="categoryForm-form" action="/admin/category/new" method="POST">
+        
+            <label class="categoryForm-label" for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Category name" class="categoryForm-input">
+
+            <label class="categoryForm-label" for="name">Slug:</label>
+            <input type="text" id="name" name="slug" placeholder="Slug name" class="categoryForm-input">
+
+            <button type="submit" class="adm-button">Create category</button>
+        </form>
+    </section>
+
+Tive alguns problemas no código então fiz algumas mudanças.
+
+A primeira foi que eu criei uma página nova. O ADMIN primeiro entra na página add.handlebars depois quando ele clica em adicionar nova categoria ele é direcionado para uma página onde ele vai poder ver as categorias já criadas, vai poder deletar e adiconar novas (porém essa parte vou adicionar mais para frente). 
+
+E quando ele clicar no botão criar categoria ele vai para página do formulário em si.
+
+Estava com problemas com a parte do flash para saber se foi registrado ou não a categoria mas já resolvi o problema, era apenas um problema de digitação no res.redirect, estava escrito req.redirect, mas agora está certo.
+
+Agora vou colocar um css nas mensagens de erro ou sucesso no cadastro, para isso no arquivo msg.css digitamos:
+
+    .alert-success {
+        align-items: center;
+        background-color: green;
+        border-radius: 1rem;
+        color: white;
+        display: flex;
+        font-family: 'Lobster', cursive,'Times New Roman', Times, serif;
+        font-size: 2rem;
+        height: 50px;
+        justify-content: center;
+        margin: 0 auto;
+        padding: .5rem;
+        width: 30%;
+    }
+
+    .alert-danger {
+        align-items: center;
+        animation: fadeInFadeOut 2s linear infinite;
+        background-color: #b21515;
+        border-radius: 1rem;
+        color: white;
+        display: flex;
+        font-family: 'Lobster', cursive,'Times New Roman', Times, serif;
+        font-size: 2rem;
+        height: 50px;
+        justify-content: center;
+        margin: 0.5rem 0 .5rem .5rem;
+        padding: .5rem;
+        width: 15%;
+    }
+
+    @keyframes fadeInFadeOut {
+        0% {opacity: 1;}
+        50% {opacity: 0.3;}
+        100% {opacity: 1;}
+    }
+
+Agora vou criar um arquivo JS para o slug, pois eu quero que o nome do slug que o usuário escolher seja o mesmo nome da categoria porém em letra minúscula.
+
+O arquivo vai se chamar slug.js e temos que caregá-lo no arquivo addcategory.handlebars.
+
+Depois no arquivo slug.js digitamos:
+
+    const inputSlug = document.getElementById("slug")
+    const inputName = document.getElementById("name");
+    inputName.addEventListener("keyup", slugName);
+
+    function slugName () {
+        
+        inputSlug.value = inputName.value.toLowerCase();
+    }
+
+Adicionamos também uma variação no arquivo addcategory.handlebars com o nome --gray, pois como queremos que o input slug seja apenas readonly então coloquei uma cor de font no input diferente.
+
+
+
+
+
+
+
+
+
+
 
 
 

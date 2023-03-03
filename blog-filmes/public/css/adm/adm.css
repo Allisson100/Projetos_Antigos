@@ -12,21 +12,22 @@
     width: 100%;
 }
 
-.adm-form {
+.adm-div {
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
 }
 
-.adm-lable {
+
+/* .adm-lable {
     color: var(--adm-lable-color);
     font-family: var(--adm-lable-font);
     font-size: 2rem;
     padding-bottom: 1rem;
-}
+} */
 
 .adm-button {
-    width: 15%;
+    width: auto;
     height: auto;
     padding: .7rem;
     color: var(--adm-button-color);
@@ -40,7 +41,9 @@
     cursor: pointer;
 }
 
-
 .adm-lable {
     color: white;
 }
+
+
+

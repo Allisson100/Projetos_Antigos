@@ -46,6 +46,13 @@
         --adm-button-background-color: #b21515;
         --adm-button-font: 'Lobster', cursive,'Times New Roman', Times, serif;
 
+        /* adm_categoryForm */
+        --adm_categoryFont-subtitle-color: #b21515;
+        --adm_categoryFont-subtitle-font: 'Lobster', cursive,'Times New Roman', Times, serif;
+        --adm_categoryFont-lable-color: #b21515;
+        --adm_categoryFont-lable-font: 'Lobster', cursive,'Times New Roman', Times, serif;
+
+
 
 }
 

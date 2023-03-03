@@ -9,6 +9,22 @@ const session = require('express-session');
 const flash = require('connect-flash');
 
 //Settings
+    //Session
+        app.use(session({
+            secret: 'blogfilmes',
+            resave: true,
+            saveUninitialized: true
+        }));
+
+        app.use(flash());
+
+    // Middleware
+        app.use((req, res, next) => {
+            res.locals.success_msg = req.flash("success_msg");
+            res.locals.error_msg = req.flash("error_msg");
+            next();
+    })
+
     //Body Parser
         app.use(express.urlencoded({extended:true}));
         app.use(express.json());
@@ -19,29 +35,16 @@ const flash = require('connect-flash');
 
     // Mongoose
         mongoose.Promise = global.Promise;
-        mongoose.connect('mongodb://127.0.0.1:27017/blog-filmes').then(() => {
-            console.log("Connect to Mongo");
+        mongoose.connect('mongodb://127.0.0.1/blog-filmes').then(() => {
+            console.log("Connected to Mongo");
         }).catch((err) => {
-            console.log("Failed to connect Mongo" + err);
+            console.log("Failed to connect Mongo:" + err);
         })
     
     //Public
         app.use(express.static(path.join(__dirname, 'public')));
 
-    //Session
-        app.use(session({
-            secret: 'blogfilmes',
-            resave: true,
-            saveUninitialized: true
-        }))
-        app.use(flash());
-    
-    // Middleware
-        app.use((req, res, next) => {
-            res.locals.sucess_msg = req.flash("sucess_msg");
-            res.locals.error_msg = req.flash("error_msg");
-            next();
-        })
+
 
 // Routes
 
@@ -52,10 +55,7 @@ const flash = require('connect-flash');
     app.use('/admin', admin);
 
 //Others
-
-
-
-const PORT = 8081;
-app.listen(PORT, () => {
-    console.log("Server running!");
-});
+    const PORT = 8081;
+    app.listen(PORT, () => {
+        console.log("Server running!");
+    });

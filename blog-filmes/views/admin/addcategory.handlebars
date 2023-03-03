@@ -1,1 +1,20 @@
-<h2 style="color:red; font-size: 20rem;">Salve</h2>
+{{#each error}}
+    <div class="alert-danger">{{texto}}</div>
+{{else}}
+    
+{{/each}}
+
+<section class="categoryForm">
+    <h3 class="categoryForm-subtitle">New Category</h3>
+    <form class="categoryForm-form" action="/admin/category/new" method="POST">
+    
+        <label class="categoryForm-label" for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Category name" class="categoryForm-input">
+
+        <label class="categoryForm-label" for="name">Slug:</label>
+        <input type="text" id="slug" name="slug" placeholder="Slug name" class="categoryForm-input --gray" readonly>
+
+        <button type="submit" class="adm-button">Create category</button>
+    </form>
+</section>
+
