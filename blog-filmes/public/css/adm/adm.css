@@ -13,9 +13,11 @@
 }
 
 .adm-div {
-    padding: 1.5rem;
+    padding: 1.5rem 0 0 1.5rem;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
+    align-items: center;
+    gap: 9.2rem;
 }
 
 
@@ -44,6 +46,14 @@
 .adm-lable {
     color: white;
 }
+
+.--h3 {
+    font-size: 4rem;
+    margin-left: 1rem;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
 
 
 

@@ -3,8 +3,8 @@
 }
 
 .categoryForm-subtitle {
-    color: var(--adm_categoryFont-subtitle-color);
-    font-family: var(--adm_categoryFont-subtitle-font);
+    color: var(--adm_categoryForm-subtitle-color);
+    font-family: var(--adm_categoryForm-subtitle-font);
     font-size: 2rem;
     padding: 1rem 1rem 1rem 0;
 }
@@ -15,8 +15,8 @@
 }
 
 .categoryForm-label {
-    color: var(--adm_categoryFont-lable-color);
-    font-family: var( --adm_categoryFont-lable-font);
+    color: var(--adm_categoryForm-lable-color);
+    font-family: var( --adm_categoryForm-lable-font);
     font-size: 1.5rem;
     padding-top: 1rem;
     padding-bottom: .5rem;

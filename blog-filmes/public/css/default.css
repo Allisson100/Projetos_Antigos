@@ -47,10 +47,26 @@
         --adm-button-font: 'Lobster', cursive,'Times New Roman', Times, serif;
 
         /* adm_categoryForm */
-        --adm_categoryFont-subtitle-color: #b21515;
-        --adm_categoryFont-subtitle-font: 'Lobster', cursive,'Times New Roman', Times, serif;
-        --adm_categoryFont-lable-color: #b21515;
-        --adm_categoryFont-lable-font: 'Lobster', cursive,'Times New Roman', Times, serif;
+            --adm_categoryForm-subtitle-color: #b21515;
+            --adm_categoryForm-subtitle-font: 'Lobster', cursive,'Times New Roman', Times, serif;
+            --adm_categoryForm-lable-color: #b21515;
+            --adm_categoryForm-lable-font: 'Lobster', cursive,'Times New Roman', Times, serif;
+
+        /* adm_category */
+            --adm_category-title-color: #fff;
+            --adm_category-title-font: 'Lobster', cursive,'Times New Roman', Times, serif;
+            --adm_category-subtitle-color: #fff;
+            --adm_category-button-backgroundcolor: #fff;
+            --adm_category-button-color: #b21515;   
+
+
+        /* adm_msg */
+            --adm_msg-alertSuccess-backgroundColor: green;
+            --adm_msg-alertDanger-backgroundColor: #b21515;
+            --adm_msg-color: #fff;
+            --adm_msg-font: 'Lobster', cursive,'Times New Roman', Times, serif;
+
+
 
 
 

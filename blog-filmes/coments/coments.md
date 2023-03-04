@@ -558,6 +558,287 @@ Depois no arquivo slug.js digitamos:
 
 Adicionamos também uma variação no arquivo addcategory.handlebars com o nome --gray, pois como queremos que o input slug seja apenas readonly então coloquei uma cor de font no input diferente.
 
+### Listar as categorias existentes
+
+Vamos na rota /categoiries e digitamos:
+
+    router.get('/categories', (req, res) => {
+
+        Category.find().lean().then((categories) => {
+            res.render('admin/categories', {categories: categories});
+        }).catch((err) => {
+            req.flash('error_msg', "Error in categories list");
+            res.redirect("/admin/add")
+        })
+    })
+
+Basicamente eu peguei a constante Category que faz referencia ao model das categorias e falei para ele listar as categorias presentes no banco de dados naquela rota e com isso passamos tipo uma variável para a página com  aparte {categories: categories}, agora temos que modificar um pouco o arquivo categories.handlebars, ficando:
+
+    <section class="adm">
+        <div class="adm-div">
+            <h3 class="adm-title --h3">Category list</h3>
+            <a href="/admin/categories/add"><button class="adm-button">Create new category</button></a>
+        </div>
+    </section>
+
+
+    {{#each categories}}
+    <section class="admCategory">
+        <div class="admCategory-div">
+            <h4 class="admCategory-title">{{name}}</h4>
+            <small class="admCategory-subtitle">Slug: {{slug}}</small>
+            <small class="admCategory-subtitle">Creation date: {{date}}</small>
+        </div>
+    </section>
+        
+    {{else}}
+
+    {{/each}}
+
+Criamos também o css da página.
+
+Vamos agora criar a parte de edição das categorias, para isso vamos criar uma nova rota e um novo arquivo handlebars chamado editcategories.handlebars:
+
+    router.get('/categories/edit/:id', (req,res) => {
+        res.render('admin/editcategories');
+    })
+
+Agora dentro do arquivo categories.handlebars vamos acrescentar um botão que vai nos direcionar para essa rota edit:
+
+    <section class="adm">
+        <div class="adm-div">
+            <h3 class="adm-title --h3">Category list</h3>
+            <a href="/admin/categories/add"><button class="adm-button">Create new category</button></a>
+        </div>
+    </section>
+
+
+    {{#each categories}}
+    <section class="admCategory">
+        <div class="admCategory-div">
+            <h4 class="admCategory-title">{{name}}</h4>
+            <small class="admCategory-subtitle">Slug: {{slug}}</small>
+            <small class="admCategory-subtitle">Creation date: {{date}}</small>
+            <a href="/admin/categories/edit/{{_id}}"><button class="admCategory-button">Edit category</button></a>
+        </div>
+    </section>
+        
+    {{else}}
+
+    {{/each}}
+
+Agora no arquivo editcategories.handlebars vamos ter uma estrutura semelhante ao arquivo addcategory.handlebars:
+
+    {{#each error}}
+        <div class="alert-danger">{{texto}}</div>
+    {{else}}
+        
+    {{/each}}
+
+    <section class="categoryForm">
+        <h3 class="categoryForm-subtitle">New Category</h3>
+        <form class="categoryForm-form" action="/admin/category/new" method="POST">
+        
+            <label class="categoryForm-label" for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Category name" class="categoryForm-input">
+
+            <label class="categoryForm-label" for="name">Slug:</label>
+            <input type="text" id="slug" name="slug" placeholder="Slug name" class="categoryForm-input --gray" readonly>
+
+            <button type="submit" class="adm-button">Create category</button>
+        </form>
+    </section>
+
+Agora dentro da rota de editcategories precisamos passar os valores dos campos nome e slug que está lá no banco de dados referentes ao id, para isso digitamos na rota /categories/edit/:id :
+
+Agra no arquivo editcategories.handlebars precisamos adcionar um input do tipo hidden:
+
+    <input type="hidden" name="id" value="{{category._id}}">
+
+O arquivo completo fica:
+
+    {{#each error}}
+        <div class="alert-danger">{{texto}}</div>
+    {{else}}
+        
+    {{/each}}
+
+    <section class="categoryForm">
+        <h3 class="categoryForm-subtitle">New Category</h3>
+        <form class="categoryForm-form" action="/admin/category/new" method="POST">
+
+            <input type="hidden" name="id" value="{{category._id}}">
+            <label class="categoryForm-label" for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Category name" class="categoryForm-input">
+
+            <label class="categoryForm-label" for="name">Slug:</label>
+            <input type="text" id="slug" name="slug" placeholder="Slug name" class="categoryForm-input --gray" readonly>
+
+            <button type="submit" class="adm-button">Create category</button>
+        </form>
+    </section>
+
+Esse input serve para pegar o id para utilizar no backend.
+
+Agora com isso vamos criar uma nova rota do tipo post para pegarmos esses novos campos do editcategories.handlebars e atualizar lá no banco de dados:
+
+    router.post('/categories/edit', (req, res) => {
+        Category.findOne({_id: req.body.id}).then((category) => {
+
+            category.name = req.body.name;
+            category.slug = req.body.slug;
+
+            category.save().then(() => {
+                req.flash('success_msg', "Category edited successfully");
+                res.redirect('/admin/categories');
+            }).catch((err) => {
+                req.flash('error_msg', "Internal error in saving category edit");
+                res.redirect('/admin/categories');
+            })
+        }).catch((err) => {
+            req.flash('error_msg', "Error editing category");
+            req.redirect('/admin/categories');
+        })
+    })
+
+Temos que lembrar também de editar o arquivo editcategories.handlebars para que tudo funcioane bem, então ele ficou da seguinte forma:
+
+    {{#each error}}
+        <div class="alert-danger">{{texto}}</div>
+    {{else}}
+        
+    {{/each}}
+
+    <section class="categoryForm">
+        <h3 class="categoryForm-subtitle">Edit Category</h3>
+        <form class="categoryForm-form" action="/admin/categories/edit" method="POST">
+
+            <input type="hidden" name="id" value="{{category._id}}">
+            <label class="categoryForm-label" for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Category name" class="categoryForm-input" value="{{category.name}}">
+
+            <label class="categoryForm-label" for="name">Slug:</label>
+            <input type="text" id="slug" name="slug" placeholder="Slug name" class="categoryForm-input --gray" readonly value="{{category.slug}}">
+
+            <button type="submit" class="adm-button">Edit category</button>
+        </form>
+    </section>
+
+Vamos agora dar uma resumida nessa parte do código.
+
+Primeiro temos que entender que no banco de dados o nome do campo id é _id que já vem como padrão.
+
+Então sabnedo disso no arquivo categories.handlebars eu adicionei um botão onde ao clica-lo o usuário vai ser direcionado para a rota /admin/categories/edit/{{_id}}.
+
+Esse {{_id}} vem de uma variavel *{categories: categories}* que foi passada ao arquivo categories.handlebars através da rota /categories.
+
+Como no nosso arquivo categories.handlebars cada elemento do banco de dados tem seu botão de edit, então cada _id é único, por isso conseguimos acessar a página que queremos corretamente.
+
+Então a rota que criamos /categories/edit/:id vai ser de cordo com o id passado da página anterior *categories.handlebars*.
+
+Dentro da rota /categories/edit/:id pedimos para a constante Category (que se refere ao model Category) encontre um elemento no banco de dados que tenha o id passado e para isso utilizamos aquele comando Category.findOne({_id:req.params.id}).lean().
+
+Então se ele encontrar algum elemento referente a aquele id ele vai rendenizar a página editcategories.handlebars com o objeto {category: category}, aqui basicamente ele está fazendo exatamente que nem antes, ele passar nesse objeto todos os dados do banco de dados referente a o id passado.
+
+Isso é necessário, pois queremos que na página editcategories tenha os inputs com os nomes já cadstrados que no caso vai ser editável, não faria sentido nenhum você querer editar um dado sem saber que dado é esse.
+
+Lembrado que também pode ocorrer algum erro, por isso utilizamos o .catch().
+
+Beleza, com isso já temos nossa página editcategories.handlebars do jeito certo. Agora falta nós pegarmos os novos campos *pois os antigos foram editados* e salvar essa alteração lá no banco de dados. Lembrando que estamos dando um update no banco de dados e não criando uma nova categoria.
+
+Então como enviamos dados com o método post, precisamos criar uma rota do tipo post e criamos a /categories/edit.
+
+Dentro dessa rota precisamos dizer qual é o id que será atualizado, por isso criamos um input do tipo hidden no arquivo editcategories.handlebars, pois com isso temos acesso ao id.
+
+Então pedimos para a constante encontrar um elemento no banco de dados com o determinado id, caso ele encontre *.then()* então precimos dizer quais serão os novos nomes e por isso digitamos category.name = req.body.name e category. slug = req.body.slug, pois os nome que eles estão requisitando do body é o novo nome e slug.
+
+E agora basicamente temos que usar um comando para slvar esses novos dados no banco de dados que é category.save() e caso de certo ou errado somos direcionados para outras páginas.
+
+Lembrando que esses nomes de category ou categories são apenas nomes para representar os elementos encontrados do banco de dados, esses nomes podem ser qualquer um.
+
+### Deletando alguma categoria
+
+Para deletarmos alguma categoria que criamos precisamos fazer uma alteração no arquivo categories.handlebars, vamos ter que adicionar um formulário ficando:
+
+    <section class="adm">
+        <div class="adm-div">
+            <h3 class="adm-title --h3">Category list</h3>
+            <a href="/admin/categories/add"><button class="adm-button">Create new category</button></a>
+        </div>
+    </section>
+
+
+    {{#each categories}}
+    <section class="admCategory">
+        <div class="admCategory-div">
+            <h4 class="admCategory-title">{{name}}</h4>
+            <small class="admCategory-subtitle">Slug: {{slug}}</small>
+            <small class="admCategory-subtitle">Creation date: {{date}}</small>
+            <div class="admCategory-position">
+            <a href="/admin/categories/edit/{{_id}}"><button class="admCategory-button">Edit category</button></a>
+                <form action="" method="POST">
+                    <input type="hidden" name="id" value="{{_id}}">
+                    <button type="submit" class="admCategory-button">Delete category</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+Criei também uma div apenas para posicionar os botões corretamente.
+
+E de novo criamos um input do tipo hidden para pegar o valor do id.
+
+Agora criamos uma nova rota para deletar:
+
+    router.post('/categories/delete', (req, res) => {
+        Category.deleteOne({_id: req.body.id}).then(() => {
+            req.flash('success_msg', "Category deleted successfully");
+            res.redirect('/admin/categories');
+        }).catch((err) => {
+            req.flash('error_msg', "Error deleting category");
+            res.redirect('/admin/categories');
+        })
+    })
+
+Basicamente ela requisita o id e com o comando .remove ela remove, depois fazemos os redirecionamentos e mensagens de acordo com os erros ou sucessos.
+
+Agora é só mudar o action do formulário do arquivo categories.handlebars ficando:
+
+    <section class="adm">
+        <div class="adm-div">
+            <h3 class="adm-title --h3">Category list</h3>
+            <a href="/admin/categories/add"><button class="adm-button">Create new category</button></a>
+        </div>
+    </section>
+
+
+    {{#each categories}}
+    <section class="admCategory">
+        <div class="admCategory-div">
+            <h4 class="admCategory-title">{{name}}</h4>
+            <small class="admCategory-subtitle">Slug: {{slug}}</small>
+            <small class="admCategory-subtitle">Creation date: {{date}}</small>
+            <div class="admCategory-position">
+            <a href="/admin/categories/edit/{{_id}}"><button class="admCategory-button">Edit category</button></a>
+                <form action="/admin/categories/delete" method="POST">
+                    <input type="hidden" name="id" value="{{_id}}">
+                    <button type="submit" class="admCategory-button">Delete category</button>
+                </form>
+            </div>
+        </div>
+    </section>
+        
+    {{else}}
+        <h4 class="admCategory-title --noCategory">There is no registered category</h4>
+    {{/each}}
+
+Acrescentei apenas um h4 no else para caso não tenha nenhuma categoria cadastrada avisar o usuário.
+
+
+
+
+
+
 
 
 

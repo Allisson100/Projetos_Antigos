@@ -1,14 +1,14 @@
 .alert-success {
     align-items: center;
-    background-color: green;
+    background-color: var(--adm_msg-alertSuccess-backgroundColor);
     border-radius: 1rem;
-    color: white;
+    color: var( --adm_msg-color);
     display: flex;
-    font-family: 'Lobster', cursive,'Times New Roman', Times, serif;
+    font-family: var(--adm_msg-font);
     font-size: 2rem;
     height: 50px;
     justify-content: center;
-    margin: 0 auto;
+    margin: .5rem;
     padding: .5rem;
     width: 30%;
 }
@@ -16,11 +16,11 @@
 .alert-danger {
     align-items: center;
     animation: fadeInFadeOut 2s linear infinite;
-    background-color: #b21515;
+    background-color: var(--adm_msg-alertDanger-backgroundColor);
     border-radius: 1rem;
-    color: white;
+    color: var( --adm_msg-color);
     display: flex;
-    font-family: 'Lobster', cursive,'Times New Roman', Times, serif;
+    font-family: var(--adm_msg-font);
     font-size: 2rem;
     height: 50px;
     justify-content: center;

@@ -1,5 +1,29 @@
 <section class="adm">
     <div class="adm-div">
+        <h3 class="adm-title --h3">Category list</h3>
         <a href="/admin/categories/add"><button class="adm-button">Create new category</button></a>
     </div>
 </section>
+
+
+{{#each categories}}
+<section class="admCategory">
+    <div class="admCategory-div">
+        <h4 class="admCategory-title">{{name}}</h4>
+        <small class="admCategory-subtitle">Slug: {{slug}}</small>
+        <small class="admCategory-subtitle">Creation date: {{date}}</small>
+
+        <div class="admCategory-position">
+            <a href="/admin/categories/edit/{{_id}}"><button class="admCategory-button">Edit category</button></a>
+
+            <form action="/admin/categories/delete" method="POST">
+                <input type="hidden" name="id" value="{{_id}}">
+                <button type="submit" class="admCategory-button">Delete category</button>
+            </form>
+        </div>
+    </div>
+</section>
+    
+{{else}}
+    <h4 class="admCategory-title --noCategory">There is no registered category</h4>
+{{/each}}
