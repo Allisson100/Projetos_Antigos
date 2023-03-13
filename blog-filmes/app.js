@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const flash = require('connect-flash');
 
+
 //Settings
     //Session
         app.use(session({
@@ -43,8 +44,6 @@ const flash = require('connect-flash');
     
     //Public
         app.use(express.static(path.join(__dirname, 'public')));
-
-
 
 // Routes
 

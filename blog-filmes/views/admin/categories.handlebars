@@ -1,13 +1,13 @@
-<section class="adm">
-    <div class="adm-div">
-        <h3 class="adm-title --h3">Category list</h3>
-        <a href="/admin/categories/add"><button class="adm-button">Create new category</button></a>
+<section class="admCategory">
+    <div class="admCategory-create">
+        <h3 class="admCategory-title --h3">Categories list</h3>
+        <a href="/admin/categories/add"><button class="admCategory-buttonNew">Create new category</button></a>
     </div>
 </section>
 
 
 {{#each categories}}
-<section class="admCategory">
+<section class="admCategory-section">
     <div class="admCategory-div">
         <h4 class="admCategory-title">{{name}}</h4>
         <small class="admCategory-subtitle">Slug: {{slug}}</small>

@@ -1,0 +1,12 @@
+<section class="admPost">
+    <div class="admPost-create">
+        <h3 class="admPost-title --h3Post">Posts list</h3>
+        <a href="posts/add"><button class="admPost-buttonNew">Create new post</button></a>
+    </div>
+</section>
+
+{{#each posts}}
+
+{{else}}
+    <h4 class="admPost-title">There is no registered posts</h4>
+{{/each}}

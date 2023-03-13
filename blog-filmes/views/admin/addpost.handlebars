@@ -1,0 +1,48 @@
+{{#each error}}
+    <div class="alert-danger">{{texto}}</div>
+{{else}}
+    
+{{/each}}
+
+<section class="formPost">
+    <h3 class="formPost-title">New post</h3>
+
+    <form class="formPost-form" action="/admin/post/new" enctype="multipart/form-data" method="post" id="formPost-sendPost">
+
+        <label for="file" id="formPost-chooseImage" class="formPost-chageFile">Choose an image</label>
+        <div class="formPost-position">
+            <label id="formPost-imageTag" class="formPost-label --imageLabel" for="file">
+
+            </label>
+        </div>
+        <input class="formPost-input --diplay-none" type="file" id="file" name="file" required>
+        <label for="file" class="formPost-nameFile" id="formPost-text">No image selected ...</label>
+
+
+        <label class="formPost-label --diplay-none" for="fileName">fileName:</label>
+        <input class="formPost-input --diplay-none" type="text" id="formPost-fileName" name="imageName" placeholder="File name" required readonly>
+
+        <label class="formPost-label" for="formPost-title">Title:</label>
+        <input class="formPost-input" type="text" id="formPost-title" name="title" placeholder="Post title" required>
+
+        <label class="formPost-label" for="formPost-slug">Slug:</label>
+        <input type="text" id="formPost-slug" name="slug" placeholder="Slug name" class="formPost-input --gray" readonly>
+
+        <label class="formPost-label" for="description">Description:</label>
+        <textarea rows="5" id="description" class="formPost-textarea" type="text" name="description" placeholder="Description" required></textarea>
+
+        <label class="formPost-label" for="content">Content:</label>
+        <textarea rows="10" id="content" class="formPost-textarea" type="text" name="content" placeholder="Content" required></textarea>
+
+        <label class="formPost-label" for="category">Category:</label>
+        <select name="category" class="formPost-input">
+            {{#each categories}}
+                <option value="{{_id}}">{{name}}</option>
+            {{else}}
+                <option value="0">Nenhuma categoria registrada</option>
+            {{/each}}
+        </select> 
+
+        <button type="submit" id="formPost-sendForm" class="formPost-button">Create post</button>
+    </form>
+</section>

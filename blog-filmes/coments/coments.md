@@ -834,17 +834,465 @@ Agora é só mudar o action do formulário do arquivo categories.handlebars fica
 
 Acrescentei apenas um h4 no else para caso não tenha nenhuma categoria cadastrada avisar o usuário.
 
+### Postagens
+
+Agora vou criar a parte de postagens.
+
+Vamos criar um banco de dados para as postagens, nele deve conter um título, um slug, uma descrição, um conteúdo, uma categoria, uma data e também uma imagem onde vamos utiliza-la para colocar futuramente no nosso carrossel.
+
+Lembrando que somente o nome da imagem será salva no banco de dados a imagem em si ficará em uma pasta chamada uploads que criamos dentro da pasta public.
+
+Então para isso vamos criar o model de postagem. Vamos criar um arquivo chamado Post.js dentro da pasta de models e nele digitamos:
+
+    const mongoose = require('mongoose');
+    const Schema = mongoose.Schema;
+
+    const Post = new Schema ({
+        imageName: {
+            type: String,
+            required: true
+        },
+        title: {
+            type: String,
+            required: true
+        },
+        slug: {
+            type: String,
+            required: true
+        },
+        description: {
+            type: String,
+            required: true
+        },
+        content: {
+            type: String,
+            required: true
+        },
+        category: {
+            type: Schema.Types.ObjectId,
+            ref: 'categories',
+            required: true
+        },
+        data: {
+            type: Date,
+            defaut: Date.now()
+        }
+    })
+
+    mongoose.model('posts', Post);
+
+Aqui criamos um model padrão, porém na parte de categorias defino o type como Schema.Types.ObjectId. Isso significa que aquele campo de categoria vai ser um id referenciando a categoria e tmabém devemos passar uma referencia que no nosso caso é a collection com o nome categories(onde está armazenado as categorias).
+
+Depois utilizamos o mongoose.model e dizemos a ele que a nova collection vai se chamar posts e tem como referencia a constante Post.
+
+Agora vou criar o formulário de postagens.
+
+Para isso vou criar uma nova rota no arquivo admin.js:
+
+    router.get('/posts', (req,res) => {
+        res.render('admin/posts');
+    })
+
+Vamos criar esse arquivo posts.handlebars dentro da pasta view/admin e é nesse arquivo que vai aparecer as postagens criadas e onde vai ter um botão para criar uma nova postagem.
+
+Esse arquivo tem a mesma estrutura do arquivo categories.handlebars com pequenas alterações.
+
+No arquivo add.handlebars vamos adiconar um novo botão que será da parte de postagens e nele vamos colocar o direcionamento para a rota que acabamos de criar ficando da seguinte forma:
+
+    <h2 class="adm-title">Aqui você poderá editar seu website</h2>
+
+    <section class="adm">
+        <nav class="adm-nav">
+            <a href="admin/categories"><button class="adm-button">Categories</button></a>
+            <a href="admin/posts"><button class="adm-button">Posts</button></a>
+        </nav>
+    </section>
+
+O arquivo posts.handlebars ficou da seguinte forma:
+
+    <section class="admPost">
+        <div class="admPost-create">
+            <h3 class="admPost-title --h3Post">Posts list</h3>
+            <a href=""><button class="admPost-buttonNew">Create new post</button></a>
+        </div>
+    </section>
+
+    {{#each posts}}
+
+    {{else}}
+        <h4 class="admPost-title">There is no registered posts</h4>
+    {{/each}}
+
+Agora vamos criar uma nova rota para carregar o arquivo que vai conter o formulário das postagens:
+
+    router.get('/posts/add', (req, res) => {
+        res.render('admin/addpost');
+    })
+
+E também temos que criar esse arquivo addposts.handlebars na pasta views.
+
+Dentro dele vamos criar o formulário:
+
+    <section class="formPost">
+        <h3 class="formPost-title">New post</h3>
+
+        <div class="formPost-div">
+            <h4 class="formPost-subtitle">Add Image</h4>
+            <label class="formPost-label --imageLabel" for="file"> </label>
+            <input class="formPost-input --imageInput" type="file" id="file" name="file" required>
+            <h4 class="formPost-nameFile" id="formPost-text">No file selected ...</h4>
+        </div>
 
 
+        <form class="formPost-form" action="" method="POST">
 
+            <label class="formPost-label --imageInput" for="fileName">fileName:</label>
+            <input class="formPost-input --imageInput" type="text" id="formPost-fileName" name="imageName" placeholder="File name" required readonly>
 
+            <label class="formPost-label" for="title">Title:</label>
+            <input class="formPost-input" type="text" id="formPost-title" name="title" placeholder="Post title" required>
 
+            <label class="formPost-label" for="name">Slug:</label>
+            <input type="text" id="formPost-slug" name="slug" placeholder="Slug name" class="formPost-input --gray" readonly>
 
+            <label class="formPost-label" for="description">Description:</label>
+            <textarea rows="5" class="formPost-textarea" type="text" name="description" placeholder="Description" required></textarea>
 
+            <label class="formPost-label" for="title">Content:</label>
+            <textarea rows="10" class="formPost-textarea" type="text" name="content" placeholder="Content" required></textarea>
 
+            <button type="submit" class="formPost-button">Create post</button>
+        </form>
+    </section>
 
+Criei o fomulário e alguns campos diferente, pois é necessário a criação de um input com display none para fazer um css diferente e também outro input com display none para apenas obter o nome da foto para cadastrar no banco de dados e utilizarmos futuramente.
 
+Agora precisamos fazer algum código para pegar a imagem e além de salvar seu nome no banco de dados vamos salvar a foto/imagem na pasta uploads.
 
+Para isso eu vou mudar um pouco o HTML do formulário de postagens:
+
+    <h4 class="formPost-subtitle">Add Image</h4>
+    <form class="formPost-div">
+        <label class="formPost-label --imageLabel" for="file"> </label>
+        <input class="formPost-input --diplay-none" type="file" id="file" name="file" required>  
+        <input id="formPost-enviarImagem" class="" type="submit"> 
+    </form>
+    <h4 class="formPost-nameFile" id="formPost-text">No file selected ...</h4>
+
+Agora vou instalar uma biblioteca chamada multer, ela permite uploads de arquivos no express. Para isso digitamos no terminal:
+
+    npm install multer --save
+
+Para esse passo de enviar imagens na pasta uploads precisamos definir no formulário o tipo de encriptação então no form digitamos enctype="multipart/form-data". Ficanod da seguinte forma:
+
+    <form class="formPost-div" method="post" enctype="multipart/form-data">
+        <label class="formPost-label --imageLabel" for="file"> </label>
+        <input class="formPost-input --diplay-none" type="file" id="file" name="file" required>  
+        <input id="formPost-enviarImagem" class="" type="submit"> 
+    </form>
+
+Então assim o formulário para enviar arquivos já está preparado para enviar as imagens.
+
+Agora vamos configurar as rotas e o multer no arquivo admin.js
+
+Primeiro vamos importar o multer no arquivo:
+
+    const multer = require('multer');
+
+Lembrando que o multer é um middleware.
+
+Agora vamos para a configuração do multer:
+
+    const upload = multer({dest: "uploads/"});
+
+Agora vou criar uma rota que vai receber o arquivo/imagem:
+
+    router.post('/upload',upload.single('file') , (req, res) => {
+        res.send("Arquivo recebido!!")
+    })
+
+Fiz também uma alteração no action do formulário:
+
+    <form class="formPost-div" method="post" enctype="multipart/form-data" action="/admin/upload">
+        <label class="formPost-label --imageLabel" for="file"> </label>
+        <input class="formPost-input --diplay-none" type="file" id="file" name="file" required>  
+        <input id="formPost-enviarImagem" class="" type="submit"> 
+    </form>
+
+Essa configuração que fiz no multer está salvando os arquivos sem nome e sem extensão. Para resolver esse problema precisamos criar uma função para o middlewre:
+
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null,'public/uploads/')
+        },
+        filename: function(req, file, cb) {
+            cb(null, file.originalname);
+        }
+    })
+
+    const upload = multer({storage});
+
+Dessa forma conseguimos salvar o arquivo na pasta uploads com o nome original da imagem. Com o código:
+
+     filename: function(req, file, cb) {
+            cb(null, file.originalname);
+            }
+
+Podemos manipular o nome da imagem, nesse caso utilizamos o file.originalname que como o próprio nome diz, salva o arquivo com seu nome original, mas pode acontecer de salvar o arquivo com o nome de um arquivo já existente. Então podemos mudar esse nome, por exemplo:
+
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null,'public/uploads/')
+        },
+        filename: function(req, file, cb) {
+            cb(null, file.originalname + Date.now() + path.extname(file.originalname));
+        }
+    })
+
+Utilizamos cb(null, file.originalname + Date.now() + path.extname(file.originalname)); para nomear todas as imagens com nomes difenrentes. Nesse caso ele pega o nome original da imagem com a extensão soma com a data atual em milisegundos e soma com a extensão de arquivo sendo impossivel o usuário adicionar imagens com mesmo nome.
+
+Essa questão do nome do rquivo em vou penasr mais para frente quando eu for colocar as imagens do banco de dados nos swipers.
+
+Lembrando que como eu quero um nome de arquivo diferente do outro eu tive que requisitar o path no arquivo admin.js (const path = require('path');).
+
+De momento vou utilizar somente o nome do arquivo original. Então temos como rota final desse processo de enviar foto para a pasta:
+
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null,'public/uploads/')
+        },
+        filename: function(req, file, cb) {
+            cb(null, file.originalname);
+        }
+    })
+
+    const upload = multer({storage});
+
+    router.post('/upload',upload.single('file') , (req, res) => {
+        res.send("Arquivo recebido!!")
+    })
+
+Agora vou cadastrar as postagens no banco de dados.
+
+Primeiro vou criar uma nova rota:
+
+    router.post('/post/new', (req, res) {
+        
+    })
+
+E vou colocar a rota no method lá no form:
+
+    <form class="formPost-form" action="/admin/post/new" method="POST">
+
+Adiciono o each também no arquivo addpost para exibir as possíveis mensagens de erro:
+
+    {{#each error}}
+        <div class="alert-danger">{{texto}}</div>
+    {{else}}
+        
+    {{/each}}
+
+Agora vamos requisitar o model de postagem no arquivo admin.js:
+
+    require('../models/Post');
+    const Post = mongoose.model('posts');
+
+Eu esqueci de adicionar o campo categorias no fomulário de postagens. Então vamos lá.
+
+Primeiro na rota /posts/add digitamos:
+
+    router.get('/posts/add', (req, res) => {
+        Category.find().lean().then((categories) => {
+            res.render('admin/addpost', {categories: categories});
+        }).catch((err) => {
+            req.flash('erro_msg', "Error to load post form");
+            res.redirect('/admin');
+        }) 
+    })
+
+Ou seja, ele vai fazer uma busca no banco de dados Category. Se essa busca não tiver nenhum erro então ele vai pegar todos os elementos presentes em uma variável chamada categories e fazer com que essas variáveis carregue junto com a página addpost.handlebars.
+
+Dentro do arquivo addpost.handlebars acrescentamos o input de categorias ficando:
+
+    <label class="formPost-label" for="category">Category:</label>
+    <select name="category" class="formPost-input">
+        {{#each categories}}
+            <option value="{{_id}}">{{name}}</option>
+        {{else}}
+            <option value="0">Nenhuma categoria registrada</option>
+        {{/each}}
+    </select> 
+
+Ou seja, caso tenha alguma categoria cadastrada, na tag option ele vai conter o nome do name do id específico.
+
+Agora com tudo adiconado, após a adicionar o model de postagem no arquivo admin.js vamos digitar no else da rota /post/new:
+
+const newPost = {
+            imageName: req.body.imageName,
+            title: req.body.title,
+            slug: req.body.slug,
+            description: req.body.description,
+            content: req.body.content,
+            category: req.body.category
+        }
+
+        new Post (newPost).save().then(() => {
+            req.flash('success_msg', "Post create successfully");
+            res.redirect('/admin/posts');
+        }).catch((err) => {
+            req.flash('error_msg', "Post save error");
+            res.redirect('/admin/posts');
+        })
+
+Ficando como código finl da rota:
+
+    router.post('/post/new', (req, res) => {
+        var error = [];
+
+        if(!req.body.name || typeof req.body.name == undefined || req.body.name == null) {
+            error.push({texto: "Invalid name"});
+        }
+
+        if(!req.body.slug || typeof req.body.slug == undefined || req.body.slug == null) {
+            error.push({texto: "Invalid slug"});
+        }
+
+        if (req.body.categoria == "0") {
+            erros.push({texto: "Categoria inválida, registre uma categoria"});
+        }
+
+        if (error.length > 0){
+            res.render('admin/addpost', {error: error});
+        } else {
+            const newPost = {
+                imageName: req.body.imageName,
+                title: req.body.title,
+                slug: req.body.slug,
+                description: req.body.description,
+                content: req.body.content,
+                category: req.body.category
+            }
+
+            new Post (newPost).save().then(() => {
+                req.flash('success_msg', "Post create successfully");
+                res.redirect('/admin/posts');
+            }).catch((err) => {
+                req.flash('error_msg', "Post save error");
+                res.redirect('/admin/posts');
+            })
+        }
+    })
+
+E com isso conseguimos cadastrar corretamente no banco de dados as postagens, porém ele ainda não enviar a imagem automaticamente para a pasta uploads e para isso vamos fazer outro script.
+
+Depois de muito estudo consegui resolver essa parte, eu qeu sou iniciante tem algumas coias que ainda acho complicado.
+
+Primeiro eu criei uma nova pasta chamada config e criei um arquivo chamado multer.js, nele fica a configuração do multer:
+
+    const multer = require('multer');
+    const path = require('path');
+
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null,'public/uploads/');
+        },
+        filename: function(req, file, cb) {
+            cb(null, Date.now() + path.extname(file.originalname));
+        }
+    })
+
+    const upload = multer({storage});
+
+    module.exports = upload;
+
+Aqui está a confiduração padrão de antes, porém eu decidi que as imagens agora vão ter o nome da data atual em milisegundos + a extensão da imagem.
+
+Depois mudei a rota. Basicamente eu estou falando para a mesma rota enviar a imagem para a pasta uploads e após isso criar o banco de dados:
+
+    router.post('/post/new', upload.single('file'), (req, res) => {
+        var error = [];
+
+        if(!req.body.title || typeof req.body.title == undefined || req.body.title == null) {
+            error.push({texto: "Invalid name"});
+        }
+
+        if(!req.body.slug || typeof req.body.slug == undefined || req.body.slug == null) {
+            error.push({texto: "Invalid slug"});
+        }
+
+        if (req.body.categoria == "0") {
+            error.push({texto: "Categoria inválida, registre uma categoria"});
+        }
+
+        if (error.length > 0){
+            res.render('admin/addpost', {error: error});
+        } else {
+
+            const newPost = {
+                imageName: req.body.imageName,
+                imageSrc: req.file.path,
+                title: req.body.title,
+                slug: req.body.slug,
+                description: req.body.description,
+                content: req.body.content,
+                category: req.body.category
+            }
+
+            new Post (newPost).save().then(() => {
+                req.flash('success_msg', "Post create successfully");
+                res.redirect('/admin/posts');
+            }).catch((err) => {
+                req.flash('error_msg', "Post save error");
+                res.redirect('/admin/posts');
+            })
+        }
+    })
+
+No banco de dados eu dei uma alterada. Agora temos tanto o nome original da imagem (nome que o usuário deu) e também temos o scr da imagem que contém o caminho da imagem e também o novo nome da imagem.
+
+Aruumei também o campo da data porque estava escrito errado e agora está tudo certo deixando no banco de dados como padrão a data de publicação da imagem.
+
+Agora vou arrumar o css do formulario de postagens e mostrar como ficou o código final:
+
+    <form class="formPost-form" action="/admin/post/new" enctype="multipart/form-data" method="post" id="formPost-sendPost">
+
+        <h4 class="formPost-subtitle">Add Image</h4>
+
+        <label class="formPost-label --imageLabel" for="file"> </label>
+        <input class="formPost-input --diplay-none" type="file" id="file" name="file" required>
+        
+        <h4 class="formPost-nameFile" id="formPost-text">No file selected ...</h4>
+
+        <label class="formPost-label --diplay-none" for="fileName">fileName:</label>
+        <input class="formPost-input --diplay-none" type="text" id="formPost-fileName" name="imageName" placeholder="File name" required readonly>
+
+        <label class="formPost-label" for="formPost-title">Title:</label>
+        <input class="formPost-input" type="text" id="formPost-title" name="title" placeholder="Post title" required>
+
+        <label class="formPost-label" for="formPost-slug">Slug:</label>
+        <input type="text" id="formPost-slug" name="slug" placeholder="Slug name" class="formPost-input --gray" readonly>
+
+        <label class="formPost-label" for="description">Description:</label>
+        <textarea rows="5" id="description" class="formPost-textarea" type="text" name="description" placeholder="Description" required></textarea>
+
+        <label class="formPost-label" for="content">Content:</label>
+        <textarea rows="10" id="content" class="formPost-textarea" type="text" name="content" placeholder="Content" required></textarea>
+
+        <label class="formPost-label" for="category">Category:</label>
+        <select name="category" class="formPost-input">
+            {{#each categories}}
+                <option value="{{_id}}">{{name}}</option>
+            {{else}}
+                <option value="0">Nenhuma categoria registrada</option>
+            {{/each}}
+        </select> 
+
+        <button type="submit" id="formPost-sendForm" class="formPost-button">Create post</button>
+    </form>
+
+Agora no arquivo file.js eu vou dar uma estilizada melhor na parte do formulario dos posts, pois a única forma do usuário saber que ele adicionou uma imagem é atrvés do texto em baixo.
+
+Então dentro do arquivo file.js fica:
 
 
 

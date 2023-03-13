@@ -1,0 +1,38 @@
+.admPost {
+    height: auto;
+    width: 100%;
+}
+
+.admPost-create {
+    padding: 1.5rem 0 0 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 9.2rem;
+}
+
+.admPost-title {
+    color: var(--adm_post-title-color);
+    font-family: var(--adm_post-title-font);
+    font-size: 3rem;
+    margin: 5rem 0 0 2rem;
+}
+
+.admPost-buttonNew {
+    width: auto;
+    height: auto;
+    padding: .7rem;
+    color: var(--adm_post-main-button-color);
+    background-color: var(--adm_post-main-button-backgroundcolor);
+    font-family: var(--adm_post-main-button-font);
+    border-radius: 1rem;
+    font-size: 1.5rem;
+}
+
+.admPost-buttonNew:hover {
+    cursor: pointer;
+}
+
+.--h3Post {
+    font-size: 4rem;
+    margin: 0 0 0 1rem;
+}
