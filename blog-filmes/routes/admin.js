@@ -99,7 +99,12 @@ router.post('/category/new', (req, res) => {
 })
 
 router.get('/posts', (req, res) => {
-    res.render('admin/posts');
+    Post.find().lean().populate({path:'category', strictPopulate: false}).sort({date:'desc'}).then((posts) => {
+        res.render('admin/posts', {posts: posts});
+    }).catch((err) => {
+        req.flash('error_msg', "Error to list posts");
+        res.redirect('/dmin');
+    }) 
 })
 
 router.get('/posts/add', (req, res) => {

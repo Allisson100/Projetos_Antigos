@@ -1290,9 +1290,102 @@ Agora vou arrumar o css do formulario de postagens e mostrar como ficou o códig
         <button type="submit" id="formPost-sendForm" class="formPost-button">Create post</button>
     </form>
 
-Agora no arquivo file.js eu vou dar uma estilizada melhor na parte do formulario dos posts, pois a única forma do usuário saber que ele adicionou uma imagem é atrvés do texto em baixo.
+Agora no arquivo file.js eu vou dar uma estilizada melhor na parte do formulario dos posts, pois a única forma do usuário saber que ele adicionou uma imagem é através do texto em baixo.
 
 Então dentro do arquivo file.js fica:
+
+    const text = document.getElementById("formPost-text");
+    const inputFile = document.getElementById("file");
+
+    const fileName = document.getElementById("formPost-fileName"); //Para o input none
+
+    const chooseImage = document.getElementById("formPost-chooseImage");
+
+    const imageTag = document.getElementById("formPost-imageTag");
+
+    if (text == null || inputFile == null || fileName == null) {
+
+    } else {
+        inputFile.addEventListener("change", changeImage);
+        inputFile.addEventListener("change", nameFile);
+    }
+
+    function nameFile () {
+        var name  = inputFile.files[0].name;
+        text.textContent = "File selected: " + name;
+        fileName.value = name;
+        console.log(fileName.value);
+    }
+
+    function changeImage (e) {
+        const inputTarget = e.target;
+        const file = inputTarget.files[0];
+
+        if (file) {
+            chooseImage.innerHTML = "Change image";
+
+            const reader = new FileReader();
+
+            reader.addEventListener("load", function(e) {
+                const readerTarget = e.target;
+
+                const img = document.createElement("img");
+                img.src = readerTarget.result;
+                img.classList.add("formPost-image");
+
+                imageTag.innerHTML = "";
+
+                imageTag.appendChild(img)
+
+            })
+
+            reader.readAsDataURL(file);
+        }
+    }
+
+Aqui basicamente criamos uma tag img no corpo do formulário e adicoinamos uma função FileReader e readAsDataURL, para conseguirmos pegar o caminho absoluto da imagem no computador do usuário e assim usar isso como src na tag img e fazer um preview da imagem.
+
+Agora vamos listar as postagens. Para isso mudamos a rota /posts:
+
+    router.get('/posts', (req, res) => {
+        Post.find().lean().populate({path:'category', strictPopulate: false}).sort({date:'desc'}).then((posts) => {
+            res.render('admin/posts', {posts: posts});
+        }).catch((err) => {
+            req.flash('error_msg', "Error to list posts");
+            res.redirect('/dmin');
+        }) 
+    })
+
+Aqui procuramos todos os posts no banco de dados de postagens e também utilizamos o populate para obter as ctegorias das postagens. Utilizamos sort também mostar as postagens mais recentes primeiro e atribuimos esses valores do banco de dados à variável posts e mandamos isso para o arquivo posts.handlebar. 
+
+Então o arquivo fica:
+
+    <section class="admPost">
+        <div class="admPost-create">
+            <h3 class="admPost-title --h3Post">Posts list</h3>
+            <a href="posts/add"><button class="admPost-buttonNew">Create new post</button></a>
+        </div>
+    </section>
+
+    {{#each posts}}
+        <section class="admPosts-section">
+            <div class="admPosts-div">
+                <h4 class="admPosts-title">{{title}}</h4>
+                <p class="admPosts-description-subtitle">Description:</p>
+                <p class="admPosts-description">{{description}}</p>
+                <small class="admPosts-subtitle">Date: {{date}}</small>
+                <small class="admPosts-subtitle">Category: {{category.name}}</small>
+            </div>
+        </section>
+
+    {{else}}
+        <h4 class="admPost-title">There is no registered posts</h4>
+    {{/each}}
+
+Agora vamos acrescentar um botão para editar as postagens.
+
+
+
 
 
 

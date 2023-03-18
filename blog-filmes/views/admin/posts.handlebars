@@ -6,6 +6,15 @@
 </section>
 
 {{#each posts}}
+    <section class="admPosts-section">
+        <div class="admPosts-div">
+            <h4 class="admPosts-title">{{title}}</h4>
+            <p class="admPosts-description-subtitle">Description:</p>
+            <p class="admPosts-description">{{description}}</p>
+            <small class="admPosts-subtitle">Date: {{date}}</small>
+            <small class="admPosts-subtitle">Category: {{category.name}}</small>
+        </div>
+    </section>
 
 {{else}}
     <h4 class="admPost-title">There is no registered posts</h4>
