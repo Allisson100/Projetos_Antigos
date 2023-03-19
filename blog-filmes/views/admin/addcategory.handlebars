@@ -1,3 +1,4 @@
+{{>_admnavbar}}
 {{#each error}}
     <div class="alert-danger">{{texto}}</div>
 {{else}}
@@ -5,7 +6,7 @@
 {{/each}}
 
 <section class="categoryForm">
-    <h3 class="categoryForm-subtitle">New Category</h3>
+    <h3 class="adm-main-title">New Category</h3>
     <form class="categoryForm-form" action="/admin/category/new" method="POST">
     
         <label class="categoryForm-label" for="name">Name:</label>
@@ -14,7 +15,7 @@
         <label class="categoryForm-label" for="name">Slug:</label>
         <input type="text" id="categoryForm-slug" name="slug" placeholder="Slug name" class="categoryForm-input --gray" readonly>
 
-        <button type="submit" class="adm-button">Create category</button>
+        <button type="submit" class="main-btn">Create category</button>
     </form>
 </section>
 

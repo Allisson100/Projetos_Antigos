@@ -1,0 +1,53 @@
+.db-article {
+    color: var(--main-text-color);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    /* margin: 1rem; */
+}
+
+.db-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 2px solid white;
+    border-radius: 1rem;
+    width: 50%;
+    height: auto;
+    row-gap: 5px;
+    padding: 1rem;
+    margin: 0 0 1rem 1rem;
+}
+
+.db-title {
+    color: var(--main-text-color);
+    font-family: var(--main-font);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.db-subtitle {
+    font-family: var(--main-font);
+    font-size: 1.5rem;
+}
+
+.db-description {
+    font-family: var(--secundary-font);
+    font-size: 1.2rem;
+    margin: 1rem 0 1rem 0;
+    text-indent: 2rem;
+    line-height: 1.7rem;
+    text-align: justify;
+}
+
+.db-small {
+    color: var(--main-text-color);
+    font-family: var(--secundary-font);
+    padding: .1rem;
+}
+
+.--noData {
+    margin: 1rem;
+    font-size: 3rem;
+}

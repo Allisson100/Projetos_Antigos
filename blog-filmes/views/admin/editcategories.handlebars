@@ -1,3 +1,4 @@
+{{>_admnavbar}}
 {{#each error}}
     <div class="alert-danger">{{texto}}</div>
 {{else}}
@@ -15,6 +16,6 @@
         <label class="categoryForm-label" for="name">Slug:</label>
         <input type="text" id="slug" name="slug" placeholder="Slug name" class="categoryForm-input --gray" readonly value="{{category.slug}}">
 
-        <button type="submit" class="adm-button">Edit category</button>
+        <button type="submit" class="main-btn">Edit category</button>
     </form>
 </section>

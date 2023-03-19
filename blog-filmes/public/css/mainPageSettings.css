@@ -1,0 +1,36 @@
+:root {
+    /* -------------------------- Cores --------------------------*/
+
+    /* header */
+        --menu-background-color: #000;
+        --menu-link-color: #fff;
+        --menu-link-font: 'Times New Roman', Times, serif;
+
+    /* main */
+        /* Section_Background */
+            /* background */
+                --background-effects-color: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,5));
+            
+            /* carousel */
+                --carousel-border-color: #000;
+                --carousel-title-color: #b21515;
+                --carousel-title-font: 'Times New Roman', Times, serif;
+            
+            /* title */
+                --main-subtitle-color: #fff;
+                --main-subtitle-font: 'Lobster', cursive,'Times New Roman', Times, serif;
+                --main-title-color: #fff;
+                --main-title-font: 'Lobster', cursive,'Times New Roman', Times, serif;
+        
+        /* Section_Category */
+            /* category */
+                --category-background-color: #000;
+                --category-title-color: #fff;
+                --category-title-font: 'Lobster', cursive,'Times New Roman', Times, serif;
+
+            /* swiper */
+
+                --swiper-button-background-color: #000;
+                --swiper-button-next-color: #b21515;
+                --swiper-button-prev-color: #b21515;
+}

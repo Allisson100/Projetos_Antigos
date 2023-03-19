@@ -1,21 +1,30 @@
-<section class="admPost">
-    <div class="admPost-create">
-        <h3 class="admPost-title --h3Post">Posts list</h3>
-        <a href="posts/add"><button class="admPost-buttonNew">Create new post</button></a>
-    </div>
-</section>
+{{>_admnavbar}}
+<div class="div-title-btn --dtbPost">
+    <h3 class="adm-main-title">Posts list</h3>
+    <a href="posts/add"><button class="main-btn">Create new post</button></a>
+</div>
+
 
 {{#each posts}}
-    <section class="admPosts-section">
-        <div class="admPosts-div">
-            <h4 class="admPosts-title">{{title}}</h4>
-            <p class="admPosts-description-subtitle">Description:</p>
-            <p class="admPosts-description">{{description}}</p>
-            <small class="admPosts-subtitle">Date: {{date}}</small>
-            <small class="admPosts-subtitle">Category: {{category.name}}</small>
+    <article class="db-article">
+        <div class="db-div">
+            <h4 class="db-title">{{title}}</h4>
+            <p class="db-subtitle">Description:</p>
+            <p class="db-description">{{description}}</p>
+            <small class="db-small">Date: {{date}}</small>
+            <small class="db-small">Category: {{category.name}}</small>
+
+            <div class="div-edit-delete">
+            <a href="/admin/post/edit/{{_id}}"><button class="secundary-btn">Edit post</button></a>
+
+            <form action="/admin/posts/delete" method="POST">
+                <input type="hidden" name="id" value="{{_id}}">
+                <button type="submit" class="secundary-btn">Delete post</button>
+            </form>
         </div>
-    </section>
+        </div>
+    </article>
 
 {{else}}
-    <h4 class="admPost-title">There is no registered posts</h4>
+    <h4 class="db-title --noData">There is no registered posts</h4>
 {{/each}}

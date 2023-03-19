@@ -3,8 +3,8 @@
 }
 
 .categoryForm-subtitle {
-    color: var(--adm_categoryForm-subtitle-color);
-    font-family: var(--adm_categoryForm-subtitle-font);
+    color: var(--secundary-text-color);
+    font-family: var(--main-font);
     font-size: 2rem;
     padding: 1rem 1rem 1rem 0;
 }
@@ -15,13 +15,12 @@
 }
 
 .categoryForm-label {
-    color: var(--adm_categoryForm-lable-color);
-    font-family: var( --adm_categoryForm-lable-font);
+    color: var(--secundary-text-color);
+    font-family: var(--main-font);
     font-size: 1.5rem;
     padding-top: 1rem;
     padding-bottom: .5rem;
 }
-
 
 .categoryForm-input {
     width: 25rem;
@@ -31,6 +30,8 @@
     font-size: 1.5rem;
     margin-bottom: 2rem;
 }
+
+/* Variations */
 
 .--gray {
     color: gray;

@@ -4,7 +4,6 @@ const inputFile = document.getElementById("file");
 const fileName = document.getElementById("formPost-fileName"); //Para o input none
 
 const chooseImage = document.getElementById("formPost-chooseImage");
-
 const imageTag = document.getElementById("formPost-imageTag");
 
 if (text == null || inputFile == null || fileName == null) {
@@ -45,9 +44,10 @@ function changeImage (e) {
 
         reader.readAsDataURL(file);
     }
-
-    
 }
+
+
+
 
 
 

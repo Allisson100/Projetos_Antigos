@@ -1,10 +1,10 @@
 .alert-success {
     align-items: center;
-    background-color: var(--adm_msg-alertSuccess-backgroundColor);
+    background-color: var(--success-btn-bg-color);
     border-radius: 1rem;
-    color: var( --adm_msg-color);
+    color: var(--main-text-color);
     display: flex;
-    font-family: var(--adm_msg-font);
+    font-family: var(--main-font);
     font-size: 2rem;
     height: 50px;
     justify-content: center;
@@ -16,11 +16,11 @@
 .alert-danger {
     align-items: center;
     animation: fadeInFadeOut 2s linear infinite;
-    background-color: var(--adm_msg-alertDanger-backgroundColor);
+    background-color: var(--dander-btn-bg-color);
     border-radius: 1rem;
-    color: var( --adm_msg-color);
+    color: var(--main-text-color);
     display: flex;
-    font-family: var(--adm_msg-font);
+    font-family: var(--main-font);
     font-size: 2rem;
     height: 50px;
     justify-content: center;

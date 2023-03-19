@@ -1384,6 +1384,221 @@ Então o arquivo fica:
 
 Agora vamos acrescentar um botão para editar as postagens.
 
+Vamos primeiro criar uma rota do tipo get, pois nessa rota precisaremos obter o id do elemento que queremos editar. Então a nova rota fica:
+
+    router.get('/post/edit/:id', (req, res) => {
+        res.render('admin/editposts');
+    })
+
+Vamos criar esse arquivo editposts.handlebars e dentro dele digitamos:
+
+    {{#each error}}
+        <div class="alert-danger">{{texto}}</div>
+    {{else}}
+        
+    {{/each}}
+
+    <section class="formPost">
+        <h3 class="formPost-title">Edit post</h3>
+
+        <form class="formPost-form" action="/admin/post/new" enctype="multipart/form-data" method="post" id="formPost-sendPost">
+
+            <label for="file" id="formPost-chooseImage" class="main-btn --chooseFile">Choose an image</label>
+            <div class="formPost-position">
+                <label id="formPost-imageTag" class="formPost-label --imageLabel" for="file">
+
+                </label>
+            </div>
+            <input class="formPost-input --diplay-none" type="file" id="file" name="file" required>
+            <label for="file" class="formPost-nameFile" id="formPost-text">No image selected ...</label>
+
+
+            <label class="formPost-label --diplay-none" for="fileName">fileName:</label>
+            <input class="formPost-input --diplay-none" type="text" id="formPost-fileName" name="imageName" placeholder="File name" required readonly>
+
+            <label class="formPost-label" for="formPost-title">Title:</label>
+            <input class="formPost-input" type="text" id="formPost-title" name="title" placeholder="Post title" required>
+
+            <label class="formPost-label" for="formPost-slug">Slug:</label>
+            <input type="text" id="formPost-slug" name="slug" placeholder="Slug name" class="formPost-input --gray" readonly>
+
+            <label class="formPost-label" for="description">Description:</label>
+            <textarea rows="5" id="description" class="formPost-textarea" type="text" name="description" placeholder="Description" required></textarea>
+
+            <label class="formPost-label" for="content">Content:</label>
+            <textarea rows="10" id="content" class="formPost-textarea" type="text" name="content" placeholder="Content" required></textarea>
+
+            <label class="formPost-label" for="category">Category:</label>
+            <select name="category" class="formPost-input">
+                {{#each categories}}
+                    <option value="{{_id}}">{{name}}</option>
+                {{else}}
+                    <option value="0">Nenhuma categoria registrada</option>
+                {{/each}}
+            </select> 
+
+            <button type="submit" id="formPost-sendForm" class="main-btn --postFormButton">Edit post</button>
+        </form>
+    </section>
+
+No arquivo posts.handlebars eu vou adicionar o botão de editar e o botão de excluir, pois vamos fazer essa parte depois:
+
+    <div class="div-title-btn --dtbPost">
+        <h3 class="adm-main-title">Posts list</h3>
+        <a href="posts/add"><button class="main-btn">Create new post</button></a>
+    </div>
+
+
+    {{#each posts}}
+        <article class="db-article">
+            <div class="db-div">
+                <h4 class="db-title">{{title}}</h4>
+                <p class="db-subtitle">Description:</p>
+                <p class="db-description">{{description}}</p>
+                <small class="db-small">Date: {{date}}</small>
+                <small class="db-small">Category: {{category.name}}</small>
+
+                <div class="div-edit-delete">
+                <a href="/admin/post/edit/{{_id}}"><button class="secundary-btn">Edit post</button></a>
+
+                <form action="#" method="POST">
+                    <input type="hidden" name="id" value="{{_id}}">
+                    <button type="submit" class="secundary-btn">Delete post</button>
+                </form>
+            </div>
+            </div>
+        </article>
+
+    {{else}}
+        <h4 class="db-title --noData">There is no registered posts</h4>
+    {{/each}}
+
+
+Agora no arquivo editposts.handlebars precisamos fazer com que os dados cadastrados no banco de dados apareçam no formulário de edição, para isso precisamos fazer duas buscas, pois temos tanto o banco de dados de categorias como o de postagens, então para isso modificamos a rota de editar postagens:
+
+    router.get('/post/edit/:id', (req, res) => {
+
+        Post.findOne({_id: req.params.id}).lean().then((post) => {
+
+            Category.find().lean().then((categories) => {
+                res.render('admin/editposts', {categories: categories, post: post});
+            }).catch((err) => {
+                req.flash('error_msg', "Error to list categories");
+                res.redirect('/admin/posts');
+            })
+
+        }).catch((err) => {
+            req.flash('error_msg', "Error to load edit form");
+            res.redirect('/admin/posts');
+        })
+    })
+
+Dessa forma através do id ele consegue pegar os dados de um post específico e depois pegars todas as categorias cadastradas e passar para esse formulário de edição.
+
+Agora como a rota ja carregar o formulário e os dados, vamos adiconar esses dados nos campos do formulário editposts.handlebars:
+
+    {{#each error}}
+        <div class="alert-danger">{{texto}}</div>
+    {{else}}
+        
+    {{/each}}
+
+    <section class="formPost">
+        <h3 class="formPost-title">Edit post</h3>
+
+        <form class="formPost-form" action="/admin/post/new" enctype="multipart/form-data" method="post" id="formPost-sendPost">
+
+            <input type="hidden" value="{{postagem._id}}" name="id">
+
+            <label for="editFile" id="formEditPost-chooseImage" class="main-btn --chooseFile">Choose an image</label>
+            <div class="formPost-position">
+                <label id="formEditPost-imageTag" class="formPost-label --imageLabel" for="editFile">
+
+                </label>
+            </div>
+            <input class="formPost-input --diplay-none" type="file" id="editFile" name="file" required>
+            <label for="editFile" class="formPost-nameFile" id="formEditPost-text">No image selected ...</label>
+
+
+            <label class="formPost-label --diplay-none" for="fileName">fileName:</label>
+            <input class="formPost-input --diplay-none" type="text" id="formEditPost-fileName" name="imageName" placeholder="File name" required readonly>
+
+            <label class="formPost-label" for="formPost-title">Title:</label>
+            <input class="formPost-input" type="text" id="formPost-title" name="title" placeholder="Post title" required value="{{post.title}}">
+
+            <label class="formPost-label" for="formPost-slug">Slug:</label>
+            <input type="text" id="formPost-slug" name="slug" placeholder="Slug name" class="formPost-input --gray" readonly value="{{post.slug}}">
+
+            <label class="formPost-label" for="description">Description:</label>
+            <textarea rows="5" id="description" class="formPost-textarea" type="text" name="description" placeholder="Description" required>{{post.description}}"</textarea>
+
+            <label class="formPost-label" for="content">Content:</label>
+            <textarea rows="10" id="content" class="formPost-textarea" type="text" name="content" placeholder="Content" required>{{post.content}}"</textarea>
+
+            <label class="formPost-label" for="category">Category:</label>
+            <select name="category" class="formPost-input">
+                {{#each categories}}
+                    <option value="{{_id}}">{{name}}</option>
+                {{else}}
+                    <option value="0">Nenhuma categoria registrada</option>
+                {{/each}}
+            </select> 
+
+            <button type="submit" id="formPost-sendForm" class="main-btn --postFormButton">Edit post</button>
+        </form>
+    </section>
+
+Tive que editar alguns IDs e criei um novo arquivo js para fazer aquele esquema de preview de imagens.
+
+Lembrando que adiconamos um input do tipo hidden apenas para obter o id do elemento.
+
+    <input type="hidden" value="{{postagem._id}}" name="id">
+
+Agora vamos criar uma noava rota para salvar essas edições no banco de dados:
+
+    router.post('/post/edit',upload.single('file'),  (req, res) => {
+
+        Post.findOne({_id: req.body.id}).then((post) => {
+            
+            post.imageName = req.body.imageName
+            post.imageSrc = req.file.path
+            post.title = req.body.title
+            post.slug = req.body.slug
+            post.description = req.body.description
+            post.content = req.body.content
+            post.category = req.body.category
+
+            post.save().then(() => {
+                req.flash('success_msg', "Post edit successfully");
+                res.redirect('/admin/posts');
+            }).catch((err) => {
+                req.flash('error_msg', "Error to edit post");
+                res.redirect('/admin/posts');
+            })
+
+        }).catch((err) => {
+            req.flash('error_msg', "Error saving edit");
+            res.redirect('/admin/posts');
+        })
+    })
+
+Essa rota ela procura no banco de dados através do id do input tipo hidden que criamos no formulário edit, depois ela pega os novos nome nos campos do formulário e depois salva os dados no banco de dados.
+
+Agora vamos adcionar a rota para deletar o post:
+
+    router.post('/posts/delete', (req, res) => {
+        Post.deleteOne({_id: req.body.id}).then(() => {
+            req.flash('success_msg', "Post deleted successfully");
+            res.redirect('/admin/posts');
+        }).catch((err) => {
+            req.flash('error_msg', "Error deleting post");
+            res.redirect('/admin/posts');
+        })
+    })
+
+E adicionamos a rota /admin/posts/delete no action do botão delete do arquivo posts.handlebars.
+
+
 
 
 

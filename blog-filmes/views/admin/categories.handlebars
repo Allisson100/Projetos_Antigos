@@ -1,24 +1,22 @@
-<section class="admCategory">
-    <div class="admCategory-create">
-        <h3 class="admCategory-title --h3">Categories list</h3>
-        <a href="/admin/categories/add"><button class="admCategory-buttonNew">Create new category</button></a>
-    </div>
-</section>
-
+{{>_admnavbar}}
+<div class="div-title-btn --dtbCategory">
+    <h3 class="adm-main-title">Categories list</h3>
+    <a href="/admin/categories/add"><button class="main-btn">Create new category</button></a>
+</div>
 
 {{#each categories}}
-<section class="admCategory-section">
-    <div class="admCategory-div">
-        <h4 class="admCategory-title">{{name}}</h4>
-        <small class="admCategory-subtitle">Slug: {{slug}}</small>
-        <small class="admCategory-subtitle">Creation date: {{date}}</small>
+<article class="db-article">
+    <div class="db-div">
+        <h4 class="db-title">{{name}}</h4>
+        <small class="db-small">Slug: {{slug}}</small>
+        <small class="db-small">Creation date: {{date}}</small>
 
-        <div class="admCategory-position">
-            <a href="/admin/categories/edit/{{_id}}"><button class="admCategory-button">Edit category</button></a>
+        <div class="div-edit-delete">
+            <a href="/admin/categories/edit/{{_id}}"><button class="secundary-btn">Edit category</button></a>
 
             <form action="/admin/categories/delete" method="POST">
                 <input type="hidden" name="id" value="{{_id}}">
-                <button type="submit" class="admCategory-button">Delete category</button>
+                <button type="submit" class="secundary-btn">Delete category</button>
             </form>
         </div>
     </div>

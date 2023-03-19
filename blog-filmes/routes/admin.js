@@ -103,7 +103,7 @@ router.get('/posts', (req, res) => {
         res.render('admin/posts', {posts: posts});
     }).catch((err) => {
         req.flash('error_msg', "Error to list posts");
-        res.redirect('/dmin');
+        res.redirect('/admin');
     }) 
 })
 
@@ -155,6 +155,62 @@ router.post('/post/new', upload.single('file'), (req, res) => {
         })
     }
 })
+
+router.get('/post/edit/:id', (req, res) => {
+
+    Post.findOne({_id: req.params.id}).lean().then((post) => {
+
+        Category.find().lean().then((categories) => {
+            res.render('admin/editposts', {categories: categories, post: post});
+        }).catch((err) => {
+            req.flash('error_msg', "Error to list categories");
+            res.redirect('/admin/posts');
+        })
+
+    }).catch((err) => {
+        req.flash('error_msg', "Error to load edit form");
+        res.redirect('/admin/posts');
+    })
+})
+
+router.post('/post/edit',upload.single('file'),  (req, res) => {
+
+    Post.findOne({_id: req.body.id}).then((post) => {
+        
+        post.imageName = req.body.imageName
+        post.imageSrc = req.file.path
+        post.title = req.body.title
+        post.slug = req.body.slug
+        post.description = req.body.description
+        post.content = req.body.content
+        post.category = req.body.category
+
+        post.save().then(() => {
+            req.flash('success_msg', "Post edit successfully");
+            res.redirect('/admin/posts');
+        }).catch((err) => {
+            req.flash('error_msg', "Error to edit post");
+            res.redirect('/admin/posts');
+        })
+
+    }).catch((err) => {
+        req.flash('error_msg', "Error saving edit");
+        res.redirect('/admin/posts');
+    })
+})
+
+router.post('/posts/delete', (req, res) => {
+    Post.deleteOne({_id: req.body.id}).then(() => {
+        req.flash('success_msg', "Post deleted successfully");
+        res.redirect('/admin/posts');
+    }).catch((err) => {
+        req.flash('error_msg', "Error deleting post");
+        res.redirect('/admin/posts');
+    })
+})
+
+
+
 
 module.exports = router;
 
