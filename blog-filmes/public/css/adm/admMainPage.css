@@ -1,0 +1,11 @@
+.form-mainPage {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.--inputMP {
+    width: 80%;
+}

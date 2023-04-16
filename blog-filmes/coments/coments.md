@@ -1598,6 +1598,116 @@ Agora vamos adcionar a rota para deletar o post:
 
 E adicionamos a rota /admin/posts/delete no action do botão delete do arquivo posts.handlebars.
 
+Agora vou começar a parte onde o ADMIN vai poder alterar algumas coisas da página inicial como título subtitulo, imagens do corroussel, e adiconar novos slider com determinada categoria.
+
+### Criando Model para os elementos da página inicial
+
+Para isso criei um arquivo chamado MainPage.js e nele digitamos:
+
+    const mongoose = require('mongoose');
+    const Schema = mongoose.Schema;
+
+    const MainPage = new Schema ({
+        title: {
+            type: String,
+            require: true
+        },
+
+        subtitle: {
+            type: String,
+            require: true
+        },
+
+        bannerImageSrc: {
+            type: String,
+            required: true
+        },
+
+        idPost: {
+            type: Schema.Types.ObjectId,
+            reference: 'posts',
+            required: true
+        }
+    })
+
+De momento vou deixar essa prte parada, pois acho mais interessante fazer a parte dos slides estilo netflix que tem em baixo.
+
+### Swiper
+
+Precisamos agora pegar todas as postagens criadas e colocar elas no swiper.
+
+Vamos primeiro requisitar o banco de dados das postagens na página inicial:
+
+    require('./models/Post');
+    const Post = mongoose.model('posts');
+
+Para isso isso na rota "/" do arquivo app.js vamos digitar:
+
+ app.get("/", (req, res) => {
+
+        Post.find().lean().then((posts) => {
+            res.render('index', {posts: posts})
+        }).catch((err) => {
+            req.flash("error_msg", "An internal error occurred");
+            res.redirect("/404");
+        })
+    })
+
+E no arquivo index.handlebars:
+
+    <section class="category">
+        <h2 class="category-title">Filmes</h2>
+        <hr>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                {{#each posts}}
+                <div class="swiper-slide"><a href=""><img src={{imageSrc}} alt="Movie"></a></div>
+                
+                {{else}}
+                    <h4 class="db-title --noData">There is no registered posts</h4>
+                {{/each}}
+            </div>
+
+            <div class="button-prev"><span></span><span></span></div>
+            <div class="button-next"><span></span><span></span></div>
+        </div>
+    </section>
+
+Adicionei essa section que nada mais é que um novo slider, porém ele tem relação com o bnaco de dados.
+
+O src da imagem que estava no banco de dados estava com problemas então tive que criar algumas funções para certar isso. Então no arquivo admin.js na rota /post/new e na rota /post/edit eu fiz algumas alterações:
+
+    const imagePathBody = req.file.path;
+
+    let nameNumbersImage = imagePath(imagePathBody);
+    let exe = getExtension(imagePathBody);
+
+    const fullPath = `/uploads/${nameNumbersImage}.${exe}`;
+
+Eu criei uma const imagePathBody que obtem o caminho completo da imagem.
+
+A let nameNumbersImage chama uma função para modificar esse caminho e me retrona somente o nome da imagem, (que nesse caso é o nome em número por conta do multer), 
+
+    function imagePath (imagePath) {
+        let justNumbers = imagePath.replace(/[^0-9]/g,'');
+        return parseInt(justNumbers);
+    }
+
+Essa função pega o caminho e me retorna somente os números dele. Lembrando que todo nome de imagem na nossa palicação são somente números.
+
+Depois criei outra variável let exe que chama outra função que vai apenas me retornar a extensão do arquivo.
+
+    function getExtension(imagePathBody) {
+        var r = /\.([^./]+)$/.exec(imagePathBody);
+        return r && r[1] || '';
+    }
+
+Esse função ela verifica e me retrona o que tem no final da string após o ponto, como nesse caso temos apenas um ponto no path, ela vai retornar a extensão, mas é importante verificar e alterar essa função caso o nome da imagem tenha vários pontos por algum motivo.
+
+
+
+
+
 
 
 

@@ -1,5 +1,5 @@
 const swiper = new Swiper('.swiper-container', {
-    slidesPerView: 4.5,
+    slidesPerView: 3.6,
     // spaceBetween: 50,
     slidesPerGroup: 3,
     direction: 'horizontal',

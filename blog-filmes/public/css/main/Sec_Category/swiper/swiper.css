@@ -24,7 +24,7 @@
     cursor: pointer;
     height: 400px;
     transition: .5s;
-    width: 270px;
+    width: 300px;
 }
 
 .swiper-wrapper img:hover {
@@ -36,6 +36,7 @@
 .button-prev {
     background-color: var(--swiper-button-background-color);
     border-radius: 0 10px 10px 0;
+    cursor: pointer;
     height: 400px;
     opacity: .5;
     position: absolute;
@@ -79,6 +80,7 @@
 .button-next {
     background-color: var(--swiper-button-background-color);
     border-radius: 0 10px 10px 0;
+    cursor: pointer;
     height: 400px;
     left: calc(100% - 60px);
     opacity: .5;

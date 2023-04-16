@@ -28,11 +28,13 @@
 }
 
 .db-subtitle {
+    color: var(--main-text-color);
     font-family: var(--main-font);
     font-size: 1.5rem;
 }
 
 .db-description {
+    color: var(--main-text-color);
     font-family: var(--secundary-font);
     font-size: 1.2rem;
     margin: 1rem 0 1rem 0;

@@ -7,7 +7,10 @@ const path = require('path');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const flash = require('connect-flash');
+const { log } = require('console');
 
+require('./models/Post');
+const Post = mongoose.model('posts');
 
 //Settings
     //Session
@@ -48,7 +51,17 @@ const flash = require('connect-flash');
 // Routes
 
     app.get("/", (req, res) => {
-        res.render('index');
+
+        Post.find().lean().then((posts) => {
+            res.render('index', {posts: posts})
+        }).catch((err) => {
+            req.flash("error_msg", "An internal error occurred");
+            res.redirect("/404");
+        })
+    })
+
+    app.get("/404", (req, res) => {
+        res.send("Error 404!");
     })
 
     app.use('/admin', admin);

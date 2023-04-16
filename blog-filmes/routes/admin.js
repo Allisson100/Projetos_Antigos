@@ -136,9 +136,16 @@ router.post('/post/new', upload.single('file'), (req, res) => {
         res.render('admin/addpost', {error: error});
     } else {
 
+        const imagePathBody = req.file.path;
+
+        let nameNumbersImage = imagePath(imagePathBody);
+        let exe = getExtension(imagePathBody);
+
+        const fullPath = `/uploads/${nameNumbersImage}.${exe}`;
+
         const newPost = {
             imageName: req.body.imageName,
-            imageSrc: req.file.path,
+            imageSrc: fullPath,
             title: req.body.title,
             slug: req.body.slug,
             description: req.body.description,
@@ -155,6 +162,16 @@ router.post('/post/new', upload.single('file'), (req, res) => {
         })
     }
 })
+
+function imagePath (imagePath) {
+    let justNumbers = imagePath.replace(/[^0-9]/g,'');
+    return parseInt(justNumbers);
+}
+
+function getExtension(imagePathBody) {
+    var r = /\.([^./]+)$/.exec(imagePathBody);
+    return r && r[1] || '';
+}
 
 router.get('/post/edit/:id', (req, res) => {
 
@@ -176,9 +193,16 @@ router.get('/post/edit/:id', (req, res) => {
 router.post('/post/edit',upload.single('file'),  (req, res) => {
 
     Post.findOne({_id: req.body.id}).then((post) => {
-        
+
+        const imagePathBody = req.file.path;
+
+        let nameNumbersImage = imagePath(imagePathBody);
+        let exe = getExtension(imagePathBody);
+
+        const fullPath = `/uploads/${nameNumbersImage}.${exe}`;
+
         post.imageName = req.body.imageName
-        post.imageSrc = req.file.path
+        post.imageSrc = fullPath
         post.title = req.body.title
         post.slug = req.body.slug
         post.description = req.body.description
@@ -209,6 +233,10 @@ router.post('/posts/delete', (req, res) => {
     })
 })
 
+
+router.get('/mainPage', (req, res) => {
+    res.render('admin/mainPage')
+})
 
 
 
