@@ -80,16 +80,15 @@
         </div>
     </section>
 
+    {{#if posts}}
+
     <section class="category">
         <h2 class="category-title">Filmes</h2>
         <hr>
         <div class="swiper-container">
             <div class="swiper-wrapper">
                 {{#each posts}}
-                <div class="swiper-slide"><a href=""><img src={{imageSrc}} alt="Movie"></a></div>
-                
-                {{else}}
-                    <h4 class="db-title --noData">There is no registered posts</h4>
+                <div class="swiper-slide"><a href="/posts/{{slug}}"><img src={{imageSrc}} alt="Movie"></a></div>
                 {{/each}}
             </div>
 
@@ -97,6 +96,14 @@
             <div class="button-next"><span></span><span></span></div>
         </div>
     </section>
+
+    {{else}}
+
+    {{/if}}
+
+    
+
+
 
 
 </main>

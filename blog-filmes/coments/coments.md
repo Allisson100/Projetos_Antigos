@@ -1704,6 +1704,53 @@ Depois criei outra variável let exe que chama outra função que vai apenas me 
 
 Esse função ela verifica e me retrona o que tem no final da string após o ponto, como nesse caso temos apenas um ponto no path, ela vai retornar a extensão, mas é importante verificar e alterar essa função caso o nome da imagem tenha vários pontos por algum motivo.
 
+### Criando link na imagem
+
+Agora precisamos fazer a imagem ser clicável. Após o clique o usuário será redirecionado para uma página onde vai ter o conteúdo de acordo com a foto clicada.
+
+Para isso primeiro vamos criar uma nova rota no arquivo app.js:
+
+    app.get('/posts/:slug', (req, res) => {
+        Post.findOne({slug: req.params.slug})
+    })
+
+Essa rota vai basicamente pesquisar uma postagem no banco de dados de acordo com o slug, que vai ser obtido através do usuário pelo parâmetro da rota.
+
+Agora precisamos criar um arquivo handlebars para a rota rendenizar e também para personalizarmos a postagem.
+
+Então dentro da pasta view criamos uma nova pasta cahamada posts e dentro dela criamos um arquivo chamado index,handlebars.
+
+E agora vamos alterar um pouco a rota que acabamos de criar no arquivo app.js:
+
+    app.get('/posts/:slug', (req, res) => {
+        Post.findOne({slug: req.params.slug}).then((posts) => {
+            if (posts) {
+                res.render('posts/index', {posts: posts});
+            } else {
+                req.flash('error_msg', "Error, post doesn't exist");
+                res.redirect('/');
+            }
+        })
+    })
+
+Essa rota vai pesquisar no banco de dados um post que tenha aquele slug, se existir ele rendeniza a página se não da mensagem de erro.
+
+Lembrando que a página inicial já está sendo carregada com o slug dos posts que estão no swiper, por isso é possível fazer essa busca no banco de dados através do slug.
+
+Agora dentro do href da tag a que está envolvendo cada imagem do swiper, vamos fazer um redirecionamento para essa rota:
+
+    <div class="swiper-wrapper">
+        {{#each posts}}
+        <div class="swiper-slide"><a href="/posts/{{slug}}"><img src={{imageSrc}} alt="Movie"></a></div>
+        {{/each}}
+    </div>
+
+### Personalizando a página da postagem
+
+
+
+
+
 
 
 

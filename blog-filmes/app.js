@@ -60,6 +60,20 @@ const Post = mongoose.model('posts');
         })
     })
 
+    app.get('/posts/:slug', (req, res) => {
+        Post.findOne({slug: req.params.slug}).lean().then((post) => {
+            if (post) {
+                res.render('posts/index', {post: post});
+            } else {
+                req.flash('error_msg', "Error, post doesn't exist");
+                res.redirect('/');
+            }
+        })
+    })
+
+
+
+
     app.get("/404", (req, res) => {
         res.send("Error 404!");
     })

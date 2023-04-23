@@ -234,8 +234,8 @@ router.post('/posts/delete', (req, res) => {
 })
 
 
-router.get('/mainPage', (req, res) => {
-    res.render('admin/mainPage')
+router.get('/mainpage', (req, res) => {
+    res.render('admin/mainpage')
 })
 
 
