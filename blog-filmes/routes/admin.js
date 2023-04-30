@@ -117,6 +117,8 @@ router.get('/posts/add', (req, res) => {
 })
 
 
+
+
 router.post('/post/new', upload.single('file'), (req, res) => {
     var error = [];
 
@@ -235,10 +237,36 @@ router.post('/posts/delete', (req, res) => {
 
 
 router.get('/mainpage', (req, res) => {
-    res.render('admin/mainpage')
+
+    Post.find().lean().then((posts) => {
+
+        res.render('admin/mainpage', {posts: posts})
+
+        
+
+    }).catch((err) => {
+        req.flash('error_msg', "Error to load main page");
+        res.redirect('/admin');
+    })    
 })
 
 
+
+function testeteste() {
+    Post.find().lean().then((posts) => {
+
+        var teste = []
+
+        posts.forEach(element => {
+            
+            teste.push(element.title)
+        }); 
+
+        console.log(teste);
+
+        return teste
+    })
+}
 
 module.exports = router;
 

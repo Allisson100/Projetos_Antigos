@@ -1,10 +1,13 @@
-const text = document.getElementById("formPost-text");
-const inputFile = document.getElementById("file");
+// Arquivo addpost.handlebars
+// Esse arquivo js, mostra o preview da imagem selecionada e troca os nomes do arquivo addpost.handlebars
 
-const fileName = document.getElementById("formPost-fileName"); //Para o input none
+    const text = document.getElementById("formPost-text");
+    const inputFile = document.getElementById("file");
 
-const chooseImage = document.getElementById("formPost-chooseImage");
-const imageTag = document.getElementById("formPost-imageTag");
+    const fileName = document.getElementById("formPost-fileName"); //Para o input none
+
+    const chooseImage = document.getElementById("formPost-chooseImage");
+    const imageTag = document.getElementById("formPost-imageTag");
 
 if (text == null || inputFile == null || fileName == null) {
 

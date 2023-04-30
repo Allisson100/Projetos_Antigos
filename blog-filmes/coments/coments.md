@@ -1747,9 +1747,382 @@ Agora dentro do href da tag a que está envolvendo cada imagem do swiper, vamos 
 
 ### Personalizando a página da postagem
 
+Apenas acrescentei coisas a respieto de personalização.
+
+### Terminando de criar a main page do admin
+
+Como funciona a parte do preview do banner e a parte da criação do banner. vou colocar aqui o script interio e e depois explicar passo a passo.
+
+Arquivo mainpage.js:
+
+    var mpFile = document.getElementById("mpFile");
+
+    let correctInputLabelImage = ""
+    let correctLabelText = ""
+    let chooseAnImage = ""
+
+    if (mpFile) {
+        getButton()
+    }
+
+    function getButton() {
+
+        const btChooseImage = document.querySelectorAll("[data-inputSelected]")
+        btChooseImage.forEach(elemento => elemento.addEventListener("click", selectCorrectLabelImage))
+    }
+
+    function selectCorrectLabelImage(e) {
+
+        mpFile = document.getElementById("mpFile");
+
+        mpFile.value = ""
+
+        let a = e.target.parentNode
+        var b = a.parentNode
+        let c = b.querySelector("[data-mpLabelImage]")
+        let d = b.querySelector("[data-mpFileText]")
+        let f = b.querySelector("[data-inputSelected]")
+        correctInputLabelImage = c
+        correctLabelText = d    
+        chooseAnImage = f
+
+        if (mpFile) {
+            mpFile.addEventListener("change", mpChangeImage);
+        }
+    }
+
+    function nameFile () {
+        var name  = mpFile.files[0].name;
+        correctLabelText.textContent = "File selected: " + name;
+        
+    }
+
+    function mpChangeImage(e) {
+        const mpInputTarget = e.target;
+        const mpFile = mpInputTarget.files[0];
+
+        if(mpFile) {
+            chooseAnImage.innerHTML = "Change image";        
+
+            const reader = new FileReader();
+
+            reader.addEventListener("load", function(e) {
+
+                const element = correctInputLabelImage.querySelector("img")
+                element.parentNode.removeChild(element)
+
+                const img = document.createElement("img");
+
+                const readerTarget = e.target.result;
+
+                img.src = readerTarget;
+
+                correctInputLabelImage.appendChild(img);
+            })
+
+            reader.readAsDataURL(mpFile);
+
+            nameFile()
+            getButton()
+        }
+    }
 
 
+    // -----------------------------------------------------------
 
+    const btAddBanner = document.querySelector("[data-btAddBanner]")
+    const mainDiv = document.querySelector("[data-mainDiv]");
+
+    if(btAddBanner) {
+        btAddBanner.addEventListener("click", addNewBanner)
+    }
+
+
+    function addNewBanner () {
+
+        let div = document.createElement("div")
+        div.className = "mpBannerPreview" 
+
+        div.innerHTML += `
+        <div class="mpButtonSelect">        
+        <label for="mpFile" id="mpChooseAnImage" class="main-btn --chooseFile --mpButton" data-inputSelected="inputImage">Choose an image
+        </label>
+            <div>
+                <h4>Link post with banner</h4>
+                <select name="" id="">
+                    <optgroup label="Link post with banner">
+                        <option value="">No link</option>
+                        <option value="">Batman</option>
+                        <option value="">Harry Potter</option>
+                        <option value="">Jogo Vorazes</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <a href="">
+                <i class="fa-solid fa-trash fa-2xl" style="color: #ffffff;"></i>
+            </a>
+        </div>
+
+        <label id="mpLabelImage" data-mpLabelImage="">
+            <img src="/img/banner/fundoCinza.png" alt="">
+        </label>
+
+        <input class="formPost-input --diplay-none" type="file" id="mpFile" name="file" data-empty="" required>
+        <label class="mpName" id="mpFile-text" data-mpFileText="">No image selected ...</label>
+        `
+
+        mainDiv.appendChild(div)
+
+        getButton()
+    }
+
+Primeiro começamos definindo algumas variáveis e constantes:
+
+    var mpFile = document.getElementById("mpFile");
+
+    let correctInputLabelImage = ""
+    let correctLabelText = ""
+    let chooseAnImage = ""
+
+Esse var mpFile nada mais que o input do tipo file dentro do arquivo mainpage do admin.
+
+Depois temos uma validação:
+
+    if (mpFile) {
+        getButton()
+    }
+
+A função getButton é onde basicamente começa a rodar o script, mas ele só será chamada caso o mpFile for verdadeiro. Isso serve para não dar erro na própria página mainpage do admin e em outras páginas também já que os scripts são todos carregador de uma vez no main.handlebars.
+
+Depois vem a função getButton():
+
+    function getButton() {
+
+        const btChooseImage = document.querySelectorAll("[data-inputSelected]")
+        btChooseImage.forEach(elemento => elemento.addEventListener("click", selectCorrectLabelImage))
+    }
+
+Essa função ele cria uma constante chamada btChooseImage que nada mais é que o botão choose image que existe dentro da criação do banner.
+
+Nesse script eu criei um preview do banner que basicamente é a imagem que você escolher dentro do seu computador.
+
+Porém eu preciso que esse preview fique em uma label específica que é destinada a envolver a tag de img, nessa tag img que será criada é onde o src da imagem vinda do pc do admin ficará.
+
+Dito isso a função getButton() serve para selecionar todos os botões choose image que existem na página e identificar quais desses botões foi clicado já que temos a possibilidade de ter diversos banners diferentes e com isso teremos varios botões de escolher imagens e por isso devemos saber qual botão foi clicado e sabendo disso vamos chamar uma outra função chamada selectCorrectLabelImage.
+
+Função selectCorrectLabelImage():
+
+    function selectCorrectLabelImage(e) {
+
+        mpFile = document.getElementById("mpFile");
+
+        mpFile.value = ""
+
+        let a = e.target.parentNode
+        var b = a.parentNode
+        let c = b.querySelector("[data-mpLabelImage]")
+        let d = b.querySelector("[data-mpFileText]")
+        let f = b.querySelector("[data-inputSelected]")
+        correctInputLabelImage = c
+        correctLabelText = d    
+        chooseAnImage = f
+
+        if (mpFile) {
+            mpFile.addEventListener("change", mpChangeImage);
+        }
+    }
+
+Essa função como o próprio nome diz seleciona o label da imagem correto. Primeiro, sabemos que o usuário pode clicar diversas vezes no botão adicionar banner e com isso termos varios campos de banner diferente. Sabemos também que cada imagem é envolvida por uma label. Então como saber qual label é a correta para adcionarmos a imagem.
+
+Com esssa função nós utilzamos o parâmetro de evento (e). Dentro da função mudamos o do mpFile que nada mais é que o mesmo input do tipo file, mas precimos seta-lo qui de novo. Depois ver uma sequência de varias let que decidi nomear com letras mesmo, pois eu só quero buscar uma div específica, mas como temos diversos passos para isso mão achei necessário criar nomes tão intuitivos.
+
+A let a = e.target.parentNode ele nos retorna uma div que está envolvendo vários componenetes.
+A var b = a.parentNode nos retorna a tag pai da tag da div que buscamos na let a, que nesse caso é a div que contém a classe mpBannerPreview, esse div da var b é a div que vamos criar futuramente para termos a criação de diversos banners.
+
+Aqui é importante saber que, como na função getButton() selecionamos o botão choose image que foi clicado, então todas as funções que contem no parâmetro e da próxima função, faz referência a esse botão, então na let c = b.querySelector("[data-mpLabelImage]") estmaos buscando naquela div em que o botão foi clicado uma label que contem o data-attribute data-mpLabelImage, ou seja, a label daquela div que iremos implementar a imagem.
+
+A let let d = b.querySelector("[data-mpFileText]") nada mias que a busca de outro elemento daquela div específica para conseguirmos posteriormente mostrar também ao usuário o nome da imagem que ele selecionou.
+
+A let f = b.querySelector("[data-inputSelected]") é o botão choose image que clicamos, ele serve apenas para identificarmos o botão, pois depois irei mudar o nome desse botão clicado.
+
+Depois para deixar o código mais entendivel eu redefini as seguintes variáveis:
+
+    correctInputLabelImage = c
+    correctLabelText = d    
+    chooseAnImage = f
+
+Só fiz para entendimento código mesmo.
+
+Seguindo o código temos: 
+
+    if (mpFile) {
+        mpFile.addEventListener("change", mpChangeImage);
+    }
+
+Ou seja, caso o input do tipo file daquela div em específico seja alterado eu quero chamar a função mpChangeImage.
+
+Função mpChangeImage():
+
+    function mpChangeImage(e) {
+        const mpInputTarget = e.target;
+        const mpFile = mpInputTarget.files[0];
+
+        if(mpFile) {
+            chooseAnImage.innerHTML = "Change image";        
+
+            const reader = new FileReader();
+
+            reader.addEventListener("load", function(e) {
+
+                const element = correctInputLabelImage.querySelector("img")
+                element.parentNode.removeChild(element)
+
+                const img = document.createElement("img");
+
+                const readerTarget = e.target.result;
+
+                img.src = readerTarget;
+
+                correctInputLabelImage.appendChild(img);
+            })
+
+            reader.readAsDataURL(mpFile);
+
+            nameFile()
+        }
+    }
+
+Utilizamos de novo o parâmetro e do evento. 
+Com ele criamos a const mpInputTarget = e.target. Com essa contante eu consigo obter qual foi o input do tipo file que foi selecionado já que esse parâmetro e faz referencia ao elemento que recebeu o evento change que no nosso caso é o input.
+
+const mpFile = mpInputTarget.files[0] contem alguns elementos da imagem selecionada do computador do usuário importantes que serão utilizados a seguir.
+
+Logo em seguida temos um validação. Se a constante mpFile foi "criada", lembrando que ela só tem valor se o usuário escolher de fato uma imagem, caso ele clique em choose image e depois cancele, essa const mpFile não tem vlor nenhum atribuido a ela.
+
+Sabendo disso caso o usuário tanha escolhido uma imagem, nós vamos pegar aquela variável chooseAnImage e dizer para ela troca seu valor para Change image, já que nõ faz sentido estar escrito choose image se já existe uma imagem lá, então chooseAnImage.innerHTML = "Change image" faz esse papel de trocar o conteúdo do botão.
+
+Depois definos a const reader = new FileReader(). Essa função new FileReader() é uma função que já vem por padrão no javaScript, e ela quando é chamado ele automaticamte cria um evento de load e nossa const reader vai ouvir isso com: 
+
+    reader.addEventListener("load", function(e) {
+
+        const element = correctInputLabelImage.querySelector("img")
+        element.parentNode.removeChild(element)
+
+        const img = document.createElement("img");
+
+        const readerTarget = e.target.result;
+
+        img.src = readerTarget;
+
+        correctInputLabelImage.appendChild(img);
+    })
+
+Ou seja, chamamos o método new FileReader(), ele sozinho criou um evento load, chamamos o addEventListener para ouvir esse evento load e atrvés da arrow funtion  dizemos que queremos deletar umatag img que já existe por padrão e tem seu conteúdo com uma imagem cinza. Então ele apaga com const element = correctInputLabelImage.querySelector("img") e element.parentNode.removeChild(element), depois nós criamos uma nova tag img dentro da label feita para isso.
+
+Depois pegamos o src da imagem que a pessoa selecionou com const readerTarget = e.target.result. Depois falamos que img.src = readerTarget  e dissemos também qual é a div pai para fazer o appendChild.
+
+Após isso colocamos:
+
+    reader.readAsDataURL(mpFile);
+
+    nameFile()
+
+Esse reader.readAsDataURL(mpFile) nada mais que um método para ler a imagem do usuário corretamente.
+
+E depois chamamos a função nameFile().
+
+Função nameFile():
+
+    function nameFile () {
+        var name  = mpFile.files[0].name;
+        correctLabelText.textContent = "File selected: " + name;
+    }
+
+Essa função apenas pega o nome da imagem do usuário e coloca lá na div como o nome da imagem.
+
+Por fim temos:
+
+    const btAddBanner = document.querySelector("[data-btAddBanner]")
+    const mainDiv = document.querySelector("[data-mainDiv]");
+
+    if(btAddBanner) {
+        btAddBanner.addEventListener("click", addNewBanner)
+    }
+
+
+    function addNewBanner () {
+
+        let div = document.createElement("div")
+        div.className = "mpBannerPreview" 
+
+        div.innerHTML += `
+        <div class="mpButtonSelect">        
+        <label for="mpFile" id="mpChooseAnImage" class="main-btn --chooseFile --mpButton" data-inputSelected="inputImage">Choose an image
+        </label>
+            <div>
+                <h4>Link post with banner</h4>
+                <select name="" id="">
+                    <optgroup label="Link post with banner">
+                        <option value="">No link</option>
+                        <option value="">Batman</option>
+                        <option value="">Harry Potter</option>
+                        <option value="">Jogo Vorazes</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <a href="">
+                <i class="fa-solid fa-trash fa-2xl" style="color: #ffffff;"></i>
+            </a>
+        </div>
+
+        <label id="mpLabelImage" data-mpLabelImage="">
+            <img src="/img/banner/fundoCinza.png" alt="">
+        </label>
+
+        <input class="formPost-input --diplay-none" type="file" id="mpFile" name="file" data-empty="" required>
+        <label class="mpName" id="mpFile-text" data-mpFileText="">No image selected ...</label>
+        `
+
+        mainDiv.appendChild(div)
+
+        getButton()
+    }
+
+Essa parte do código só serve para colocar com js um novo lugar para outro banner, o código é longo, mas a explicação é bem simples.
+
+### Linkando os banners
+
+Futuramente vou implantar isso no projeto.
+
+### Fazendo com que o icone de lixeira apague a div do banner
+
+Adicionei somente duas funções no código:
+
+    function chooseAllIcon() {
+        const icons = document.querySelectorAll("[data-icon]")
+        icons.forEach(e => e.addEventListener("click", deleteBanner))
+    }
+
+    function deleteBanner(e) {
+        const parent = e.target.parentNode.parentNode
+        var getConfirm = confirm("Do you really sure you want to delete this banner ?")
+
+        if (getConfirm == true) {
+            parent.remove()
+        }
+    }
+
+A função chooseAllIcon() apenas seleciona todos os icones de lixeira que servem para deletar um item.
+
+A função deleteBanner(e) como o próprio nome diz serve para deletar aquela div do banner específica.
+
+A outra alteração foi que toda vez que a função addNewBanner () termina ela chama a função getButton() e chooseAllIcon(), pois como novos botões são implementados eles precisam ser capturados.
+
+E também coloquei um alerta para a pessoa confirma se ela tem certeza que quer deletar o banner.
+
+Futuramente podemos ver de personalizar isso.
 
 
 

@@ -4,6 +4,7 @@
 
 {{else}}
 
+
 <form class="form-mainPage" action="" method="post">
     <label for="title" class="formPost-label">Title:</label>
     <input type="text" id="title" class="formPost-input --inputMP">
@@ -11,7 +12,75 @@
     <label for="title" class="formPost-label ">Subtitle:</label>
     <input type="text" id="title" class="formPost-input --inputMP">
 
-    <button type="submit" id="" class="main-btn --postFormButton">Save</button>
+    <div class="mpInputsImages" data-mainDiv="">
+
+        {{!-- <div class="mpBannerPreview">
+            <div class="mpButtonSelect">        
+                <label for="mpFile" id="mpChooseAnImage" class="main-btn --chooseFile --mpButton" data-inputSelected="inputImage">Choose an image
+                </label>
+                    <div>
+                        <h4>Link post with banner</h4>
+                        <select>
+                            <option value="">No link</option>
+                            {{#each posts}}
+                                <option value="{{_id}}">{{title}}</option>
+                            {{else}}
+                                <option value="0">No post registered</option>
+                            {{/each}}
+                        </select>
+                    </div>
+        
+                    <a href="">
+                        <i class="fa-solid fa-trash fa-2xl" style="color: #ffffff;"></i>
+                    </a>
+            </div>
+
+            <label id="mpLabelImage" data-mpLabelImage="">
+                <img src="/img/banner/fundoCinza.png" alt="">
+            </label>
+
+            <input class="formPost-input --diplay-none" type="file" id="mpFile" name="file" required>
+            <label class="mpName" id="mpFile-text" data-mpFileText="">No image selected ...</label>
+        </div>
+
+        <div class="mpBannerPreview">
+            <div class="mpButtonSelect">        
+                <label for="mpFile" id="formPost-chooseImage" class="main-btn --chooseFile --mpButton" data-inputSelected="inputImage">Choose an image
+                </label>
+                    <div>
+                        <h4>Link post with banner</h4>
+                        <select name="" id="">
+                            <option value="">No link</option>
+                            {{#each posts}}
+                                <option value="{{_id}}">{{title}}</option>
+                            {{else}}
+                                <option value="0">No post registered</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                      <a href="">
+                        <i class="fa-solid fa-trash fa-2xl" style="color: #ffffff;"></i>
+                    </a>
+            </div>
+
+            <label id="mpLabelImage" data-mpLabelImage="">
+                <img src="/img/banner/fundoCinza.png" alt="">
+            </label>
+
+            <input class="formPost-input --diplay-none" type="file" id="mpFile" name="file" required>
+            <label class="mpName" id="mpFile-text" data-mpFileText="">No image selected ...</label>
+        </div>   --}}
+
+        
+
+    </div>
+
+    <div class="main-btn --mpButtonAdd" data-btAddBanner="">Create new banner</div>
+
+
+    
+    {{!-- <button type="submit" id="" class="main-btn --postFormButton">Save</button> --}}
 
 </form>
 

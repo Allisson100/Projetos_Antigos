@@ -1,3 +1,6 @@
+// Arquivo edipost.handlebars
+// Esse arquivo js, mostra o preview da imagem selecionada e troca os nomes do arquivo editpost.handlebars
+
 const inputEditFile = document.getElementById("editFile");
 
 const preview = document.getElementById("formEditPost-imageTag");

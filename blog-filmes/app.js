@@ -71,9 +71,6 @@ const Post = mongoose.model('posts');
         })
     })
 
-
-
-
     app.get("/404", (req, res) => {
         res.send("Error 404!");
     })
@@ -82,6 +79,7 @@ const Post = mongoose.model('posts');
 
 //Others
     const PORT = 8081;
+
     app.listen(PORT, () => {
         console.log("Server running!");
     });

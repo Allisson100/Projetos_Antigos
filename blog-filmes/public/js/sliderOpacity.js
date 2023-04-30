@@ -1,29 +1,37 @@
-const images = document.querySelectorAll(".carrousel-image");
 
-let timer = 4000;
+const flag = document.getElementById("flag");
 
-var currentImage = 0;
-var max = images.length;
+if (flag) {
+    const images = document.querySelectorAll(".carrousel-image");
 
-
-window.addEventListener("load", start);
-
-function start () {
-    setInterval (() => {
-        nextImage();
-    }, timer)  
-}
-
-function nextImage() {
-
-    images[currentImage].classList.remove("selected");
-
-    currentImage++;
-
-    if(currentImage >= max) {
-        currentImage = 0;
+    let timer = 4000;
+    
+    var currentImage = 0;
+    var max = images.length;
+    
+    start();
+    // window.addEventListener("load", start);
+    
+    function start () {
+        setInterval (() => {
+            nextImage();
+        }, timer)  
     }
-
-    images[currentImage].classList.add("selected");
+    
+    
+    
+    function nextImage() {
+    
+        images[currentImage].classList.remove("selected");
+    
+        currentImage++;
+    
+        if(currentImage >= max) {
+            currentImage = 0;
+        }
+    
+        images[currentImage].classList.add("selected");
+    }
 }
+
 

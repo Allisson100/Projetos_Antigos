@@ -1,0 +1,74 @@
+.mpInputsImages {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.mpBannerPreview {
+    margin-top: 2rem;
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 1.5rem;
+    border: 2px solid white;
+    border-radius: 1.5rem;
+    padding: .5rem;
+}
+
+.mpBannerPreview a {
+    margin-top: .6rem;
+    transition: 1s;
+}
+
+.mpBannerPreview a:hover {
+    scale: 1.2;
+}
+
+.mpButtonSelect {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.mpButtonSelect div {
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    align-items: center;
+    row-gap: .5rem;
+}
+
+.mpButtonSelect div h4 {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+
+.mpInputsImages img {
+    width: 30.499rem;
+    height: 10.802rem;
+    border-radius: 1.5rem;
+}
+
+.mpName {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.--mpButtonAdd {
+    margin-top: 2rem;
+    padding: 0;
+    margin-bottom: 2rem;
+}
+
+i {
+    cursor: pointer;
+}
