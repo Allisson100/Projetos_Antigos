@@ -2,18 +2,20 @@
 <main class="main">
     <section class="background" id="flag">
         <div class="background-effects">
-            <h2 class="main-title">Seja Bem-Vindo ao Blog Filmes</h2>
-            <h3 class="main-subtitle">Se você gosta muito de filmes está no local certo</h3>
+            {{!-- Seja Bem-Vindo ao Blog Filmes
+            Se você gosta muito de filmes está no local certo --}}
+
+            <h2 class="main-title">{{mainpage.title}}</h2>
+            <h3 class="main-subtitle">{{mainpage.subtitle}}</h3>
 
             <figure class="carousel">
-                <img class="carrousel-image selected" src="/img/banner/hp.png" alt="Banner Harry potter">
-                <img class="carrousel-image" src="/img/banner/hg.png" alt="Banner Jogos Vorazes">
-                <img class="carrousel-image" src="/img/banner/vf.png" alt="Banner Velozes e furioso">
-                    {{!-- 
-                    <div class="carousel-description">
-                        <h2 class="carousel-title">Reviews recentes</h2>
-                    </div> --}}
-
+                {{#each mainpage.bannerImageSrc}}
+                    <img class="carrousel-image selected" src="{{this}}" alt="">
+                {{else}}
+                    <img class="carrousel-image selected" src="/img/banner/hp.png" alt="Banner Harry potter">
+                    <img class="carrousel-image" src="/img/banner/hg.png" alt="Banner Jogos Vorazes">
+                    <img class="carrousel-image" src="/img/banner/vf.png" alt="Banner Velozes e furioso">
+                {{/each}}
             </figure>
         </div>
     </section>

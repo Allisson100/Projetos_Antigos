@@ -2124,6 +2124,179 @@ E também coloquei um alerta para a pessoa confirma se ela tem certeza que quer 
 
 Futuramente podemos ver de personalizar isso.
 
+### Alterações
+
+Fiz uma alteração na aprte do banner e decide deixar um número fix de banners, pois tem certas coisas que eu ainda não aprendi e não consegui implemnetra no código, porem quando aprender vou fazer a alteração nesse projeto.
+
+Então o script do arquivo mainpage.js fica:
+
+    const mpFile = document.getElementById("mpFile")
+    const mpFile02 = document.getElementById("mpFile02")
+    const mpFile03 = document.getElementById("mpFile03")
+    const mpFile04 = document.getElementById("mpFile04")
+
+    mpFile.addEventListener("change", mpChamgeImage)
+    mpFile02.addEventListener("change", mpChamgeImage)
+    mpFile03.addEventListener("change", mpChamgeImage)
+    mpFile04.addEventListener("change", mpChamgeImage)
+
+    let mpBannerPreview = ""
+    let mpBtChooseImage = ""
+    let mpLabelImage = ""
+    let mpFileText = ""
+
+
+    function mpChamgeImage (e) {
+
+        getElements(e)
+
+        const file = e.target.files[0]
+
+        if(file) {
+            mpBtChooseImage.innerHTML = "Change image"
+
+            const reader = new FileReader();
+
+            reader.addEventListener("load", function(e) {
+                const imgElement = mpLabelImage.querySelector("img")
+                imgElement.parentNode.removeChild(imgElement)
+
+                const img = document.createElement("img")
+
+                const readerTarget = e.target.result
+
+                img.src = readerTarget
+
+                mpLabelImage.appendChild(img)
+
+                mpFileText.textContent = "File selected: " + file.name
+            })
+
+            reader.readAsDataURL(file)
+        }
+    }
+
+    function getElements(e) {
+        mpBannerPreview = e.target.parentNode
+        mpBtChooseImage = mpBannerPreview.querySelector("[data-inputSelected]")
+        mpLabelImage = mpBannerPreview.querySelector("[data-mpLabelImage]")
+        mpFileText = mpBannerPreview.querySelector("[data-mpFileText]")
+    }
+
+E lá no mainpage.handlebars eu criei 4 divs de banners aletrando somente o id do input e o for do label.
+
+### Salvando dados no banco de dados
+
+Primeiro vou mostrat o model da MainPage.js:
+
+    const mongoose = require('mongoose');
+    const Schema = mongoose.Schema;
+
+    const MainPage = new Schema ({
+        title: {
+            type: String,
+        },
+
+        subtitle: {
+            type: String,
+        },
+
+        bannerImageSrc: {
+            type: Array,
+        }
+    })
+
+    mongoose.model('mainpage', MainPage);
+
+Eu vou tratar os dados de path das imagens e jogar tudo como array no bannerImageSrc.
+
+Agora vamos criar a rota /mainpage/save:
+
+    router.post('/mainpage/save', upload.array("file"), (req, res) => {
+
+        MainPage.findById("64512683d06035b348475c81").then((mainpage) => {
+
+            var arrayPath = []
+            req.files.forEach((e) => {
+                arrayPath.push(e.path)
+            })
+
+            const mpImageNumbersArray = mpImagePath(arrayPath)
+            const mpImageExtensionArray = mpGetExtension(arrayPath)
+
+            const mpFullPath = []
+
+            for (i = 0; i < arrayPath.length; i++) {
+                mpFullPath.push(`/uploads/${mpImageNumbersArray[i]}.${mpImageExtensionArray[i]}`)
+            }
+
+            mainpage.title = req.body.title
+            mainpage.subtitle = req.body.subtitle
+            mainpage.bannerImageSrc = mpFullPath
+
+            mainpage.save().then(() => {
+                req.flash('success_msg', "All datas saved successfully");
+                res.redirect('/admin/mainpage');
+            }).catch((err) => {
+                req.flash('error_msg', "Data save error");
+                res.redirect('/admin/mainpage');
+            })
+
+        }).catch((err) => {
+            req.flash('error_msg', "Data save error");
+            res.redirect('/admin/mainpage');
+        })
+    })
+
+Aqui basicamente tratamos os dados do path que nem fizemos na rota post.
+
+No caso dessa rot, nós procuramos um id no banco de dados e sempre atualizamos o mesmo, então temos somente um registro no banco de dados que vai ficar se atualizando todo vez que tiver alguma alteração.
+
+### Mostrar dados do banco de dados nos arquivos Handlebars
+
+Para isso vou editar a rota "/" do arquivo app.js:
+
+    app.get("/", (req, res) => {
+
+        Post.find().lean().then((posts) => {
+
+            MainPage.findById("64512683d06035b348475c81").lean().then((mainpage) => {
+
+                res.render('index', {posts: posts, mainpage: mainpage})
+
+            }).catch((err) => {
+                req.flash('error_msg', "An internal error occurred");
+                res.redirect('/404');
+            })
+
+        }).catch((err) => {
+            req.flash("error_msg", "An internal error occurred");
+            res.redirect("/404");
+        })
+    })
+
+E no arquivo index.handlebars:
+
+    <h2 class="main-title">{{mainpage.title}}</h2>
+    <h3 class="main-subtitle">{{mainpage.subtitle}}</h3>
+
+    <figure class="carousel">
+        {{#each mainpage.bannerImageSrc}}
+            <img class="carrousel-image selected" src="{{this}}" alt="">
+        {{else}}
+            <img class="carrousel-image selected" src="/img/banner/hp.png" alt="Banner Harry potter">
+            <img class="carrousel-image" src="/img/banner/hg.png" alt="Banner Jogos Vorazes">
+            <img class="carrousel-image" src="/img/banner/vf.png" alt="Banner Velozes e furioso">
+        {{/each}}
+    </figure>
+
+No caso do mainpage.bannerImageSrc eu utilizei o this para mostrar cada elemento do array de objetos que tem no banco dados da mainpage. Não sei se essa é a melhor forma, mas deu certo, caso eu descubra uma maneira melhor eu atualizo aqui.
+
+
+
+
+
+
 
 
 

@@ -8,6 +8,9 @@ const Category = mongoose.model('categories');
 require('../models/Post');
 const Post = mongoose.model('posts');
 
+require('../models/MainPage');
+const MainPage = mongoose.model('mainpage');
+
 const upload = require('../config/multer');
 
 
@@ -115,9 +118,6 @@ router.get('/posts/add', (req, res) => {
         res.redirect('/admin');
     }) 
 })
-
-
-
 
 router.post('/post/new', upload.single('file'), (req, res) => {
     var error = [];
@@ -241,7 +241,6 @@ router.get('/mainpage', (req, res) => {
     Post.find().lean().then((posts) => {
 
         res.render('admin/mainpage', {posts: posts})
-
         
 
     }).catch((err) => {
@@ -250,23 +249,54 @@ router.get('/mainpage', (req, res) => {
     })    
 })
 
+router.post('/mainpage/save', upload.array("file"), (req, res) => {
 
+    MainPage.findById("64512683d06035b348475c81").then((mainpage) => {
 
-function testeteste() {
-    Post.find().lean().then((posts) => {
+        var arrayPath = []
+        req.files.forEach((e) => {
+            arrayPath.push(e.path)
+        })
 
-        var teste = []
+        const mpImageNumbersArray = mpImagePath(arrayPath)
+        const mpImageExtensionArray = mpGetExtension(arrayPath)
 
-        posts.forEach(element => {
-            
-            teste.push(element.title)
-        }); 
+        const mpFullPath = []
 
-        console.log(teste);
+        for (i = 0; i < arrayPath.length; i++) {
+            mpFullPath.push(`/uploads/${mpImageNumbersArray[i]}.${mpImageExtensionArray[i]}`)
+        }
 
-        return teste
+        mainpage.title = req.body.title
+        mainpage.subtitle = req.body.subtitle
+        mainpage.bannerImageSrc = mpFullPath
+
+        mainpage.save().then(() => {
+            req.flash('success_msg', "All datas saved successfully");
+            res.redirect('/admin/mainpage');
+        }).catch((err) => {
+            req.flash('error_msg', "Data save error");
+            res.redirect('/admin/mainpage');
+        })
+
+    }).catch((err) => {
+        req.flash('error_msg', "Data save error");
+        res.redirect('/admin/mainpage');
     })
+})
+
+function mpImagePath(arrayPath) {
+
+    const mpImageNumbers = arrayPath.map(e => e.replace(/[^0-9]/g,''))
+    return mpImageNumbers
 }
+
+function mpGetExtension(arrayPath) {
+
+    var ext = arrayPath.map(e => e.split('.').pop())
+    return ext
+}
+
 
 module.exports = router;
 

@@ -12,6 +12,9 @@ const { log } = require('console');
 require('./models/Post');
 const Post = mongoose.model('posts');
 
+require('./models/MainPage');
+const MainPage = mongoose.model('mainpage');
+
 //Settings
     //Session
         app.use(session({
@@ -53,7 +56,16 @@ const Post = mongoose.model('posts');
     app.get("/", (req, res) => {
 
         Post.find().lean().then((posts) => {
-            res.render('index', {posts: posts})
+
+            MainPage.findById("64512683d06035b348475c81").lean().then((mainpage) => {
+
+                res.render('index', {posts: posts, mainpage: mainpage})
+
+            }).catch((err) => {
+                req.flash('error_msg', "An internal error occurred");
+                res.redirect('/404');
+            })
+
         }).catch((err) => {
             req.flash("error_msg", "An internal error occurred");
             res.redirect("/404");

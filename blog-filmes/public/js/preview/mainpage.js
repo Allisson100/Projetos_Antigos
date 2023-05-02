@@ -1,123 +1,66 @@
-var mpFile = document.getElementById("mpFile");
+const mpFile = document.getElementById("mpFile")
+// const mpFile02 = document.getElementById("mpFile02")
+// const mpFile03 = document.getElementById("mpFile03")
+// const mpFile04 = document.getElementById("mpFile04")
 
-let correctInputLabelImage = ""
-let correctLabelText = ""
-let chooseAnImage = ""
+mpFile.addEventListener("change", mpChangeImage)
+// mpFile02.addEventListener("change", mpChamgeImage)
+// mpFile03.addEventListener("change", mpChamgeImage)
+// mpFile04.addEventListener("change", mpChamgeImage)
 
-if (mpFile) {
-    getButton()
-}
+let mpBannerPreview = ""
+let mpBtChooseImage = ""
+let mpLabelImage = ""
 
-function getButton() {
 
-    const btChooseImage = document.querySelectorAll("[data-inputSelected]")
-    btChooseImage.forEach(elemento => elemento.addEventListener("click", selectCorrectLabelImage))
-}
+function mpChangeImage (e) {
 
-function selectCorrectLabelImage(e) {
+    getElements(e)
 
-    mpFile = document.getElementById("mpFile");
+    mpLabelImage.innerHTML = ""
 
-    mpFile.value = ""
+    var teste = []
 
-    let a = e.target.parentNode
-    var b = a.parentNode
-    let c = b.querySelector("[data-mpLabelImage]")
-    let d = b.querySelector("[data-mpFileText]")
-    let f = b.querySelector("[data-inputSelected]")
-    correctInputLabelImage = c
-    correctLabelText = d    
-    chooseAnImage = f
+    var files = e.target.files
+    var filesLength = files.length
 
-    if (mpFile) {
-        mpFile.addEventListener("change", mpChangeImage);
+    for (let i = 0; i < filesLength; i++) {
+        teste.push(files[i])
     }
-}
 
-function nameFile () {
-    var name  = mpFile.files[0].name;
-    correctLabelText.textContent = "File selected: " + name;
-    
-}
-
-function mpChangeImage(e) {
-    const mpInputTarget = e.target;
-    const mpFile = mpInputTarget.files[0];
-
-    if(mpFile) {
-        chooseAnImage.innerHTML = "Change image";        
-
-        const reader = new FileReader();
-
-        reader.addEventListener("load", function(e) {
-
-            const element = correctInputLabelImage.querySelector("img")
-            element.parentNode.removeChild(element)
-
-            const img = document.createElement("img");
-
-            const readerTarget = e.target.result;
-
-            img.src = readerTarget;
-
-            correctInputLabelImage.appendChild(img);
+    if(teste.length > 0) {
+        teste.forEach((element) => {
+            previewImage(element)  
         })
-
-        reader.readAsDataURL(mpFile);
-
-        nameFile()
-    }
+    }       
 }
 
+function previewImage(element) {
+    mpBtChooseImage.innerHTML = "Change the Banners"
 
-// ------------------ Add Banner -----------------------------------------
+    const reader = new FileReader();
 
-const btAddBanner = document.querySelector("[data-btAddBanner]")
-const mainDiv = document.querySelector("[data-mainDiv]");
+    reader.addEventListener("load", function(e) {
 
-if(btAddBanner) {
-    btAddBanner.addEventListener("click", addNewBanner)
+        // const imgElement = mpLabelImage.querySelector("img")
+        // imgElement.parentNode.removeChild(imgElement)
+
+        const img = document.createElement("img")
+
+        const readerTarget = e.target.result
+        console.log(readerTarget);
+
+        img.src = readerTarget
+
+        mpLabelImage.appendChild(img)
+
+    })
+
+    reader.readAsDataURL(element)
 }
 
-
-function addNewBanner () {
-
-    let div = document.createElement("div")
-    div.className = "mpBannerPreview" 
-
-    div.innerHTML += `
-        <div class="mpButtonSelect">        
-            <label for="mpFile" id="mpChooseAnImage" class="main-btn --chooseFile --mpButton" data-inputSelected="inputImage">Choose an image</label>
-
-            <i class="fa-solid fa-trash fa-2xl" style="color: #ffffff;" data-icon=""></i>
-        </div>
-
-        <label id="mpLabelImage" data-mpLabelImage="">
-            <img src="/img/banner/fundoCinza.png" alt="">
-        </label>
-
-        <input class="formPost-input --diplay-none" type="file" id="mpFile" name="file" data-empty="" required>
-        <label class="mpName" id="mpFile-text" data-mpFileText="">No image selected ...</label>
-    `
-
-    mainDiv.appendChild(div)
-
-    getButton()
-    chooseAllIcon()
-}
-
-// ------------------ Delete Banner -----------------------------------------
-
-function chooseAllIcon() {
-    const icons = document.querySelectorAll("[data-icon]")
-    icons.forEach(e => e.addEventListener("click", deleteBanner))
-}
-
-function deleteBanner(e) {
-    const parent = e.target.parentNode.parentNode
-    var getConfirm = confirm("Do you really sure you want to delete this banner ?")
-
-    if (getConfirm == true) {
-        parent.remove()
-    }
+function getElements(e) {
+    mpBannerPreview = e.target.parentNode
+    mpBtChooseImage = mpBannerPreview.querySelector("[data-inputSelected]")
+    mpLabelImage = mpBannerPreview.querySelector("[data-mpLabelImage]")
 }
