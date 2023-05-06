@@ -30,7 +30,7 @@ function changeEditImage(e) {
 
             const img = document.createElement("img");
             img.src = readerTarget.result;
-            img.classList.add("formPost-image");
+            img.classList.add("_root_formLabelImage");
 
             preview.innerHTML = "";
 

@@ -1,9 +1,0 @@
-.background-effects {
-    align-items: center;
-    background: var(--background-effects-color);
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: center;
-    width: 100%;
-}

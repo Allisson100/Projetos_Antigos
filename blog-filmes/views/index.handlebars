@@ -1,15 +1,15 @@
 {{>_navbar}}
-<main class="main">
+<main class="index">
     <section class="background" id="flag">
         <div class="background-effects">
             {{!-- Seja Bem-Vindo ao Blog Filmes
             Se você gosta muito de filmes está no local certo --}}
 
-            <h2 class="main-title">{{mainpage.title}}</h2>
-            <h3 class="main-subtitle">{{mainpage.subtitle}}</h3>
+            <h2 class="_root_h2">{{titlesubtitle.mpTitle}}</h2>
+            <h4 class="_root_h4 --indexMarginTop">{{titlesubtitle.mpSubtitle}}</h4>
 
             <figure class="carousel">
-                {{#each mainpage.bannerImageSrc}}
+                {{#each mainpagebanner.bannerImageSrc}}
                     <img class="carrousel-image selected" src="{{this}}" alt="">
                 {{else}}
                     <img class="carrousel-image selected" src="/img/banner/hp.png" alt="Banner Harry potter">
@@ -20,94 +20,23 @@
         </div>
     </section>
 
-    <section class="category">
-        <h2 class="category-title">Aventura</h2>
-        <hr>
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/2.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/3.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/4.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/5.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/6.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/7.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/8.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/9.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/10.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/11.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/12.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/13.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/14.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/15.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/16.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/17.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/18.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/19.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/20.jpg" alt="Movie"></a></div>
-            </div>
-
-            <div class="button-prev"><span></span><span></span></div>
-            <div class="button-next"><span></span><span></span></div>
-        </div>
-    </section>
-
-    <section class="category">
-        <h2 class="category-title">Ação</h2>
-        <hr>
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/2.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/3.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/4.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/5.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/6.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/7.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/8.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/9.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/10.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/11.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/12.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/13.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/14.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/15.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/16.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/17.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/18.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/19.jpg" alt="Movie"></a></div>
-                <div class="swiper-slide"><a href=""><img src="/img/filmes/20.jpg" alt="Movie"></a></div>
-            </div>
-
-            <div class="button-prev"><span></span><span></span></div>
-            <div class="button-next"><span></span><span></span></div>
-        </div>
-    </section>
-
     {{#if posts}}
+        <section class="swiper">
+            <h2 class="_root_h2 --indexSwiper">Movies</h2>
+            <hr>
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    {{#each posts}}
+                    <div class="swiper-slide"><a href="/posts/{{slug}}"><img src={{imageSrc}} alt="Movie"></a></div>
+                    {{/each}}
+                </div>
 
-    <section class="category">
-        <h2 class="category-title">Filmes</h2>
-        <hr>
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                {{#each posts}}
-                <div class="swiper-slide"><a href="/posts/{{slug}}"><img src={{imageSrc}} alt="Movie"></a></div>
-                {{/each}}
+                <div class="button-prev"><span></span><span></span></div>
+                <div class="button-next"><span></span><span></span></div>
             </div>
-
-            <div class="button-prev"><span></span><span></span></div>
-            <div class="button-next"><span></span><span></span></div>
-        </div>
-    </section>
-
-    {{else}}
-
+        </section>
     {{/if}}
-
-    
-
-
-
 
 </main>
 
-<footer style="height: 200px;"></footer>
+<footer style="height: 50px;"></footer>

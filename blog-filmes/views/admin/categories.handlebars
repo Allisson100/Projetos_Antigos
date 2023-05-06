@@ -1,27 +1,27 @@
 {{>_admnavbar}}
-<div class="div-title-btn --dtbCategory">
-    <h3 class="adm-main-title">Categories list</h3>
-    <a href="/admin/categories/add"><button class="main-btn">Create new category</button></a>
+<div class="_root_alignElements --categoriesAlignElements">
+    <h3 class="_root_h3">Categories list</h3>
+    <a href="/admin/categories/add"><button class="_root_mainButton">Create new category</button></a>
 </div>
 
 {{#each categories}}
-<article class="db-article">
-    <div class="db-div">
-        <h4 class="db-title">{{name}}</h4>
-        <small class="db-small">Slug: {{slug}}</small>
-        <small class="db-small">Creation date: {{date}}</small>
+<article class="_root_article">
+    <div class="_root_databaseCard">
+        <h5 class="_root_h5">{{name}}</h5>
+        <small class="_root_small">Slug: {{slug}}</small>
+        <small class="_root_small">Creation date: {{date}}</small>
 
-        <div class="div-edit-delete">
-            <a href="/admin/categories/edit/{{_id}}"><button class="secundary-btn">Edit category</button></a>
+        <div class="_root_alignButtons">
+            <a href="/admin/categories/edit/{{_id}}"><button class="_root_secundaryButton">Edit category</button></a>
 
             <form action="/admin/categories/delete" method="POST">
                 <input type="hidden" name="id" value="{{_id}}">
-                <button type="submit" class="secundary-btn">Delete category</button>
+                <button type="submit" class="_root_secundaryButton">Delete category</button>
             </form>
         </div>
     </div>
 </section>
     
 {{else}}
-    <h4 class="admCategory-title --noCategory">There is no registered category</h4>
+    <h4 class="_root_h4 --categoriesH4">There is no registered category</h4>
 {{/each}}

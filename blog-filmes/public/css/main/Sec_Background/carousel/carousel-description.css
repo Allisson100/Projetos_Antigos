@@ -1,9 +1,0 @@
-.carousel-description {
-    border-bottom: 5px dashed var(--carousel-border-color);
-    border-top: 5px dashed var(--carousel-border-color);
-    height: 2.8rem;
-    left: 0.05%;
-    position: absolute;
-    top: 87%;
-    width: 74.9rem;
-}

@@ -8,8 +8,11 @@ const Category = mongoose.model('categories');
 require('../models/Post');
 const Post = mongoose.model('posts');
 
-require('../models/MainPage');
-const MainPage = mongoose.model('mainpage');
+require('../models/MainPageBanner');
+const MainPageBanner = mongoose.model('mainpagebanner');
+
+require('../models/TitleSubtitle');
+const TitleSubtitle = mongoose.model('titlesubtitle');
 
 const upload = require('../config/multer');
 
@@ -238,11 +241,19 @@ router.post('/posts/delete', (req, res) => {
 
 router.get('/mainpage', (req, res) => {
 
-    Post.find().lean().then((posts) => {
+    MainPageBanner.find().lean().then((mainpagebanner) => {
 
-        res.render('admin/mainpage', {posts: posts})
+        TitleSubtitle.find().lean().then((titlesubtitle) => {
+
+            res.render('admin/mainpage', {mainpagebanner: mainpagebanner, titlesubtitle: titlesubtitle})
+
+        }).catch((err) => {
+            req.flash('error_msg', "An internal error occurred");
+            res.redirect('/admin');
+        })
+
         
-
+        
     }).catch((err) => {
         req.flash('error_msg', "Error to load main page");
         res.redirect('/admin');
@@ -251,27 +262,25 @@ router.get('/mainpage', (req, res) => {
 
 router.post('/mainpage/save', upload.array("file"), (req, res) => {
 
-    MainPage.findById("64512683d06035b348475c81").then((mainpage) => {
+    MainPageBanner.findById("64519d4cf2fac1d37805c010").then((mainpagebanner) => {
 
         var arrayPath = []
         req.files.forEach((e) => {
             arrayPath.push(e.path)
         })
-
+    
         const mpImageNumbersArray = mpImagePath(arrayPath)
         const mpImageExtensionArray = mpGetExtension(arrayPath)
-
+    
         const mpFullPath = []
-
+    
         for (i = 0; i < arrayPath.length; i++) {
             mpFullPath.push(`/uploads/${mpImageNumbersArray[i]}.${mpImageExtensionArray[i]}`)
         }
 
-        mainpage.title = req.body.title
-        mainpage.subtitle = req.body.subtitle
-        mainpage.bannerImageSrc = mpFullPath
+        mainpagebanner.bannerImageSrc = mpFullPath
 
-        mainpage.save().then(() => {
+        mainpagebanner.save().then(() => {
             req.flash('success_msg', "All datas saved successfully");
             res.redirect('/admin/mainpage');
         }).catch((err) => {
@@ -282,8 +291,28 @@ router.post('/mainpage/save', upload.array("file"), (req, res) => {
     }).catch((err) => {
         req.flash('error_msg', "Data save error");
         res.redirect('/admin/mainpage');
-    })
+    })    
 })
+
+router.post('/mainpage/savetitle', (req, res) => {
+
+    TitleSubtitle.findById("6451b1776f71fbb5d143e59e").then((titlesubtitle) => {
+
+
+        titlesubtitle.mpTitle = req.body.title
+        titlesubtitle.mpSubtitle = req.body.subtitle
+
+    
+        titlesubtitle.save().then(() => {
+            req.flash('success_msg', "All datas saved successfully");
+            res.redirect('/admin/mainpage');
+        }).catch((err) => {
+            req.flash('error_msg', "Data save error");
+            res.redirect('/admin/mainpage');
+        })
+    })   
+})
+
 
 function mpImagePath(arrayPath) {
 
@@ -296,7 +325,6 @@ function mpGetExtension(arrayPath) {
     var ext = arrayPath.map(e => e.split('.').pop())
     return ext
 }
-
 
 module.exports = router;
 

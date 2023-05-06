@@ -12,8 +12,12 @@ const { log } = require('console');
 require('./models/Post');
 const Post = mongoose.model('posts');
 
-require('./models/MainPage');
-const MainPage = mongoose.model('mainpage');
+require('./models/MainPageBanner');
+const MainPageBanner = mongoose.model('mainpagebanner');
+
+require('./models/TitleSubtitle');
+const TitleSubtitle = mongoose.model('titlesubtitle');
+
 
 //Settings
     //Session
@@ -41,6 +45,7 @@ const MainPage = mongoose.model('mainpage');
         app.set('view engine', 'handlebars');
 
     // Mongoose
+        mongoose.set("strictQuery", true);
         mongoose.Promise = global.Promise;
         mongoose.connect('mongodb://127.0.0.1/blog-filmes').then(() => {
             console.log("Connected to Mongo");
@@ -57,9 +62,18 @@ const MainPage = mongoose.model('mainpage');
 
         Post.find().lean().then((posts) => {
 
-            MainPage.findById("64512683d06035b348475c81").lean().then((mainpage) => {
+            MainPageBanner.findById("64519d4cf2fac1d37805c010").lean().then((mainpagebanner) => {
 
-                res.render('index', {posts: posts, mainpage: mainpage})
+                TitleSubtitle.findById("6451b1776f71fbb5d143e59e").lean().then((titlesubtitle) => {
+
+                    res.render('index', {posts: posts, mainpagebanner: mainpagebanner, titlesubtitle: titlesubtitle})
+
+                }).catch((err) => {
+                    req.flash('error_msg', "An internal error occurred");
+                    res.redirect('/404');
+                })
+
+                
 
             }).catch((err) => {
                 req.flash('error_msg', "An internal error occurred");

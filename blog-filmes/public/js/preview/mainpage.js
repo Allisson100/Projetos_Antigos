@@ -1,12 +1,8 @@
 const mpFile = document.getElementById("mpFile")
-// const mpFile02 = document.getElementById("mpFile02")
-// const mpFile03 = document.getElementById("mpFile03")
-// const mpFile04 = document.getElementById("mpFile04")
 
-mpFile.addEventListener("change", mpChangeImage)
-// mpFile02.addEventListener("change", mpChamgeImage)
-// mpFile03.addEventListener("change", mpChamgeImage)
-// mpFile04.addEventListener("change", mpChamgeImage)
+if(mpFile) {
+    mpFile.addEventListener("change", mpChangeImage)
+}
 
 let mpBannerPreview = ""
 let mpBtChooseImage = ""
@@ -29,6 +25,9 @@ function mpChangeImage (e) {
     }
 
     if(teste.length > 0) {
+        const imgElement = mpLabelImage.querySelectorAll("img")
+        imgElement.forEach(e => e.parentNode.removeChild(e))
+
         teste.forEach((element) => {
             previewImage(element)  
         })
@@ -42,13 +41,12 @@ function previewImage(element) {
 
     reader.addEventListener("load", function(e) {
 
-        // const imgElement = mpLabelImage.querySelector("img")
-        // imgElement.parentNode.removeChild(imgElement)
+
+        
 
         const img = document.createElement("img")
 
         const readerTarget = e.target.result
-        console.log(readerTarget);
 
         img.src = readerTarget
 

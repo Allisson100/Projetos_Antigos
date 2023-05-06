@@ -2292,6 +2292,21 @@ E no arquivo index.handlebars:
 
 No caso do mainpage.bannerImageSrc eu utilizei o this para mostrar cada elemento do array de objetos que tem no banco dados da mainpage. Não sei se essa é a melhor forma, mas deu certo, caso eu descubra uma maneira melhor eu atualizo aqui.
 
+### Mostrando os dados cadastrados no arquivo mainpage.handlebars
+
+### Tive que fazer uma alteração
+
+Tive que dividir a parte da Main Page em dois bancos de dados um para as imagens apenas e outro para titulo e subtitulo. Estav com problema na alteração e na parte de mostrar os dados.
+
+Nem vou detalhar aqui como ficou, pois são coisas básicas que eu já fiz.
+
+### Organizando o CSS.
+
+Resolver bugs.
+
+Arrumar a responsividade
+
+
 
 
 
