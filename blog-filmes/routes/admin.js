@@ -199,6 +199,7 @@ router.post('/post/edit',upload.single('file'),  (req, res) => {
 
     Post.findOne({_id: req.body.id}).then((post) => {
 
+        
         const imagePathBody = req.file.path;
 
         let nameNumbersImage = imagePath(imagePathBody);

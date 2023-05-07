@@ -2300,11 +2300,6 @@ Tive que dividir a parte da Main Page em dois bancos de dados um para as imagens
 
 Nem vou detalhar aqui como ficou, pois são coisas básicas que eu já fiz.
 
-### Organizando o CSS.
-
-Resolver bugs.
-
-Arrumar a responsividade
 
 
 

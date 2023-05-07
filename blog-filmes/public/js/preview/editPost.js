@@ -1,52 +1,51 @@
-// Arquivo edipost.handlebars
-// Esse arquivo js, mostra o preview da imagem selecionada e troca os nomes do arquivo editpost.handlebars
+const inputEditFile = document.getElementById("editFile")
 
-const inputEditFile = document.getElementById("editFile");
+const preview = document.getElementById("formEditPost-imageTag")
+const chooseEditImage = document.getElementById("formEditPost-chooseImage")
 
-const preview = document.getElementById("formEditPost-imageTag");
-const chooseEditImage = document.getElementById("formEditPost-chooseImage");
-
-const editText = document.getElementById("formEditPost-text");
-const editFileName = document.getElementById("formEditPost-fileName");
+const editText = document.getElementById("formEditPost-text")
+const editFileName = document.getElementById("formEditPost-fileName")
 
 if (preview == null || inputEditFile == null || chooseEditImage == null) {
 
 } else {
-    inputEditFile.addEventListener("change", changeEditImage);
-    inputEditFile.addEventListener("change", nameEditFile);
+    inputEditFile.addEventListener("change", changeEditImage)
+    inputEditFile.addEventListener("change", nameEditFile)
 }
 
 function changeEditImage(e) {
-    const inputTarget = e.target;
-    const file = inputTarget.files[0];
+    const inputTarget = e.target
+    const file = inputTarget.files[0]
 
     if (file) {
-        chooseEditImage.innerHTML = "Change image";
+        preview.innerHTML = ""
+        chooseEditImage.innerHTML = "Change image"
 
         const reader = new FileReader();
 
         reader.addEventListener("load", function(e) {
-            const readerTarget = e.target;
+            
+            const readerTarget = e.target
 
-            const img = document.createElement("img");
+            const img = document.createElement("img")
             img.src = readerTarget.result;
-            img.classList.add("_root_formLabelImage");
+            img.classList.add("_root_formLabelImage")
 
-            preview.innerHTML = "";
+            
 
             preview.appendChild(img)
 
         })
 
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(file)
     }
 }
 
 function nameEditFile () {
-    var name  = inputEditFile.files[0].name;
-    editText.textContent = "File selected: " + name;
-    editFileName.value = name;
-    console.log(editFileName.value);
+    var name  = inputEditFile.files[0].name
+    editText.textContent = "File selected: " + name
+    editFileName.value = name
+    console.log(editFileName.value)
 }
 
 

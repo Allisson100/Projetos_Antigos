@@ -1,4 +1,4 @@
-- na parte de editar alguma categoria, não está atualizando o slug.
+Fazer a responsividade e ver como fica no mobile.
 
-- Tem que aparecer a imagem na parte de editar a postagem
+
 

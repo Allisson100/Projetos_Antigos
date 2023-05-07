@@ -1,36 +1,15 @@
-const inputSlug = document.getElementById("categoryForm-slug")
-const inputName = document.getElementById("categoryForm-name");
+// Autocomplete all slugs from all files with slugs
 
-const formPostInputSlug = document.getElementById("formPost-slug");
-const formPostInputTitle = document.getElementById("formPost-title");
+const InputName = document.querySelector("[data-formpostTitle]")
+const InputSlug = document.querySelector("[data-formpostSlug]")
 
-if (inputSlug == null || inputName == null) {
-
-}else {
-    inputName.addEventListener("keyup", slugName);
+if (InputName) {
+    InputName.addEventListener("keyup", editPostSlugName)
 }
 
-if (formPostInputSlug == null || formPostInputTitle == null) {
-
-}else {
-    formPostInputTitle.addEventListener("keyup", formPostSlugName);
-}
-
-
-function slugName () {
-
-    if (inputSlug.value == null) {
-
-    }else {
-        inputSlug.value = inputName.value.toLowerCase();
-    }
-}
-
-function formPostSlugName () {
-    if (formPostInputSlug.value == null) {
-
-    }else {
-        formPostInputSlug.value = formPostInputTitle.value.toLowerCase();
+function editPostSlugName () {
+    if (InputSlug) {
+        InputSlug.value = InputName.value.toLowerCase()
     }
 }
 

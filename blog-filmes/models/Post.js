@@ -8,6 +8,7 @@ const Post = new Schema ({
     },
     imageSrc: {
         type:String,
+        required: true
     },
     title: {
         type: String,

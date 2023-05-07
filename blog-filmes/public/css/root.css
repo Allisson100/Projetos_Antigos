@@ -103,6 +103,7 @@ body {
     ._root_mainButton {
         align-items: center;
         background-color: var(--main-btn-bg-color);
+        border: none;
         border-radius: 1rem;
         color: var(--main-text-color);
         cursor: pointer;
@@ -123,6 +124,7 @@ body {
     ._root_secundaryButton {
         align-items: center;
         background-color: var(--secundary-btn-bg-color);
+        border: none;
         border-radius: 1rem;
         color: var(--secundary-text-color);
         cursor: pointer;
