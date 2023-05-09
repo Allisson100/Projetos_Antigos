@@ -19,7 +19,7 @@ function changeEditImage(e) {
 
     if (file) {
         preview.innerHTML = ""
-        chooseEditImage.innerHTML = "Change image"
+        // chooseEditImage.innerHTML = "Change image"
 
         const reader = new FileReader();
 

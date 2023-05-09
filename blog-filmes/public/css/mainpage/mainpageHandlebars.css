@@ -69,10 +69,6 @@
     margin-bottom: 5rem;
 }
 
-.--mainpageButton {
-    background-color: var(--success-btn-bg-color);
-}
-
 .--mainpageH3 {
     font-size: 5rem;
     margin-left: 0;

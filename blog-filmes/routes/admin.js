@@ -199,13 +199,18 @@ router.post('/post/edit',upload.single('file'),  (req, res) => {
 
     Post.findOne({_id: req.body.id}).then((post) => {
 
-        
-        const imagePathBody = req.file.path;
+        var fullPath = ''
 
-        let nameNumbersImage = imagePath(imagePathBody);
-        let exe = getExtension(imagePathBody);
+        if(req.file != undefined) {
+            const imagePathBody = req.file.path
 
-        const fullPath = `/uploads/${nameNumbersImage}.${exe}`;
+            let nameNumbersImage = imagePath(imagePathBody);
+            let exe = getExtension(imagePathBody);
+
+            fullPath = `/uploads/${nameNumbersImage}.${exe}`;
+        } else {
+            fullPath = req.body.noImageFile
+        }
 
         post.imageName = req.body.imageName
         post.imageSrc = fullPath
@@ -224,6 +229,7 @@ router.post('/post/edit',upload.single('file'),  (req, res) => {
         })
 
     }).catch((err) => {
+        console.log(err);
         req.flash('error_msg', "Error saving edit");
         res.redirect('/admin/posts');
     })

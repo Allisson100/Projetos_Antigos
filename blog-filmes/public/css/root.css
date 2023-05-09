@@ -114,7 +114,7 @@ body {
         justify-content: center;
         padding: .7rem;
         transition: .5s;
-        max-width: 16rem;
+        width: 16rem;
     }
 
     ._root_mainButton:hover {
@@ -219,13 +219,13 @@ body {
 
 /* Variations */
 
-    ._root_--textAlign {
-        text-align: center;
+    ._root_--bgButtonSubmit {
+        background-color: var(--success-btn-bg-color);
     }
 
     ._root_--buttonForm {
         margin-top: 1.5rem;
-    }
+    }    
 
     ._root_--gray {
         color: gray;
@@ -247,6 +247,12 @@ body {
     ._root_--labelButton {
         padding: 0;
     }
+
+    ._root_--textAlign {
+        text-align: center;
+    }
+
+    
 
 
 /* For img tag created by JS*/
@@ -277,6 +283,10 @@ body {
         width: 80%;
     }
 
+    ._root_mainButton {
+        max-width: 13rem;
+    }
+
 }
 
 @media screen and (min-width: 501px) and (max-width: 700px) {
@@ -295,6 +305,10 @@ body {
         width: 80%;
     }
 
+    ._root_mainButton {
+        max-width: 16rem;
+    }
+
 }
 
 @media screen and (min-width: 701px) and (max-width: 1000px) {
@@ -311,6 +325,10 @@ body {
 
     ._root_formInput {
         width: 80%;
+    }
+
+    ._root_mainButton {
+        width: 16rem;
     }
 
 }

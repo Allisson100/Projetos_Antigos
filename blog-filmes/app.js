@@ -86,6 +86,10 @@ const TitleSubtitle = mongoose.model('titlesubtitle');
         })
     })
 
+    app.get('/about', (req, res) => {
+        res.render('about')
+    })
+
     app.get('/posts/:slug', (req, res) => {
         Post.findOne({slug: req.params.slug}).lean().then((post) => {
             if (post) {

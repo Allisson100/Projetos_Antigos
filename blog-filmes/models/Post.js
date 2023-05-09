@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 const Post = new Schema ({
     imageName: {
         type: String,
-        required: true
+        default: 'noname'
     },
     imageSrc: {
         type:String,
-        required: true
+        default: 'noimage'
     },
     title: {
         type: String,
@@ -16,20 +16,20 @@ const Post = new Schema ({
     },
     slug: {
         type: String,
-        required: true
+        // required: true
     },
     description: {
         type: String,
-        required: true
+        // required: true
     },
     content: {
         type: String,
-        required: true
+        // required: true
     },
     category: {
         type: Schema.Types.ObjectId,
         ref: 'categories',
-        required: true
+        // required: true
     },
     date: {
         type: Date,
