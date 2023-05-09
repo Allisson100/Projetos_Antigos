@@ -1,5 +1,6 @@
 .--categoriesAlignElements {
-    column-gap: 12.4rem;
+    /* column-gap: 12.4rem; */
+    column-gap: 14.5%;
 }
 
 .--categoriesH4 {

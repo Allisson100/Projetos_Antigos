@@ -27,7 +27,9 @@
             <div class="swiper-container">
                 <div class="swiper-wrapper">
                     {{#each posts}}
-                    <div class="swiper-slide"><a href="/posts/{{slug}}"><img src={{imageSrc}} alt="Movie"></a></div>
+                        <div class="swiper-slide">
+                            <a href="/posts/{{slug}}"><img src={{imageSrc}} alt="Movie"></a>
+                        </div>
                     {{/each}}
                 </div>
 
@@ -39,4 +41,6 @@
 
 </main>
 
-<footer style="height: 50px;"></footer>
+<footer>
+    
+</footer>

@@ -116,3 +116,25 @@
     top: 41.5%;
     transform: rotate(45deg);
 }
+
+@media screen and (max-width: 1200px) {
+    .button-prev {
+        display: none;
+    }
+
+    .button-next {
+        display: none;
+    }
+
+    .swiper-wrapper img {
+        border-radius: 10px;
+        cursor: pointer;
+        height: 50%;
+        transition: .5s;
+        width: 90%;
+    }
+
+    .swiper-container {
+        height: 100%;
+    }
+}

@@ -1,3 +1,9 @@
+.menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .header {
     align-items: center;
     background-color: var(--fourth-color);
@@ -5,6 +11,11 @@
     height: 3rem;
     justify-content: center;
 }
+
+.hr {
+    margin: 0;
+}
+
 
 .menu-list {
     align-items: center;
@@ -25,6 +36,18 @@
     text-decoration: none;
 }
 
-.hr {
-    margin: 0;
+
+@media screen and (max-width: 700px) {
+    
+    .menu-list {
+        display: inline;
+    }
+
+    .--screen {
+        display: none;
+    }
+
+    .--space {
+        margin-right: 2.3rem;
+    }
 }

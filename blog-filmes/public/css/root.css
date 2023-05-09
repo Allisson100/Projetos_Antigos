@@ -30,7 +30,7 @@
 
 body {
     background-color: var(--main-bg-color);
-    height: auto;
+    height: 100%;
     width: 100%;
 }
 
@@ -114,7 +114,7 @@ body {
         justify-content: center;
         padding: .7rem;
         transition: .5s;
-        width: 16rem;
+        max-width: 16rem;
     }
 
     ._root_mainButton:hover {
@@ -146,15 +146,20 @@ body {
 /* Others CSS */
 
     ._root_alignButtons {
+        align-items: center;
+        column-gap: 2rem;
         display: flex;
-        gap: 2rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        row-gap: .5rem;
     }
 
     ._root_alignElements {
         align-items: center;
         display: flex;
         justify-content: center;
-        margin: 1rem 0 0 1rem;
+        margin: 1rem 0 1rem 1rem;
+        flex-wrap: wrap;   
     }
 
     ._root_databaseCard {
@@ -188,7 +193,7 @@ body {
         height: 2.5rem;
         font-size: 1.5rem;
         padding: .3rem;
-        width: 25rem;
+        width: 35%;
     }
 
     ._root_formNameFile {
@@ -213,6 +218,10 @@ body {
 
 
 /* Variations */
+
+    ._root_--textAlign {
+        text-align: center;
+    }
 
     ._root_--buttonForm {
         margin-top: 1.5rem;
@@ -249,3 +258,63 @@ body {
         position: relative;
         top: -1rem;
     }
+
+
+
+@media screen and (min-width: 0px) and (max-width: 500px) {
+    .background-effects ._root_h2 {
+        margin-top: 0rem;
+        text-align: center;
+        font-size: 2rem;
+    }
+
+    .background-effects ._root_h4 {
+        text-align: center;
+        font-size: 1.5rem;
+    }
+
+    ._root_formInput {
+        width: 80%;
+    }
+
+}
+
+@media screen and (min-width: 501px) and (max-width: 700px) {
+    .background-effects ._root_h2 {
+        margin-top: .5rem;
+        text-align: center;
+        font-size: 2.5rem;
+    }
+
+    .background-effects ._root_h4 {
+        text-align: center;
+        font-size: 2rem;
+    }
+
+    ._root_formInput {
+        width: 80%;
+    }
+
+}
+
+@media screen and (min-width: 701px) and (max-width: 1000px) {
+    .background-effects ._root_h2 {
+        margin-top: .5rem;
+        text-align: center;
+        font-size: 3rem;
+    }
+
+    .background-effects ._root_h4 {
+        text-align: center;
+        font-size: 2.5rem;
+    }
+
+    ._root_formInput {
+        width: 80%;
+    }
+
+}
+
+
+
+
