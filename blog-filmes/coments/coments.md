@@ -2298,6 +2298,49 @@ No caso do mainpage.bannerImageSrc eu utilizei o this para mostrar cada elemento
 
 Tudo finalizado falta somente criar o link do site.
 
+### Deploy
+
+Para fazer o deploy do site eu utilizei a plataforma render.com, pois achei mais fácil fazer o deploy de projeto em node lá.
+
+Para fazer o deploy do site corretamente eu tive que fazer algumas alterações.
+
+Primeiro fiz a conexão com o mongo DB Atlas que nada mais é que o nosso banco de dados que eu estava usando aqui no pc local, mas em um servidor.
+
+Para isso eu utilizei:
+
+    mongoose.connect('link do mongoDBAtlas').then(() => {
+        console.log("Connected to Mongo");
+    }).catch((err) => {
+        console.log("Failed to connect Mongo:" + err);
+    })
+
+Basicamente na parte em que eu fiz a conexão local do mongo eu coloquei a url que o mongo db atlas me disponibiliza, mas nesse caso o link vem com o meu USER e Password do banco. Como eu não queria que meu usuário e senha fossem para p git, então eu tive que declarar essas variáveis no arquivo .env e subir no git o arquivo .env.examples.
+
+E para utilizar o .env temos que instala-lo com:
+
+    npm i dotenv
+
+E temos temos que requisitá-lo no arquivo proncipal com :
+
+    require("dotenv").config();
+
+Com isso já conseguimos utilizar as varaiávei no dotenc no nosso projeto principal. Lembrando que para chamar a variável devemos chamar process.env.NOME_DA_VARIAVEL.
+
+Depois disso eu tiver que fazer uma mudança em questão da porta que estavamos usando.
+
+De vez utilizar const PORT = 8081 eu mudei para:
+
+    const PORT = process.env.PORT || 8081
+
+Ou seja, ou vai utilizar a porta padrão 8081 ou alguma variável de ambiente, pelo o que eu entendi o mongo utiliza uma outra porta para ter a conexão.
+
+Isso já é o suficeinte para rodar o código no render.com. Eu só fiz algumas alterações básicas em alguns CSSs e em alguns Handlebars, mas nada de mais.
+
+Link do projeto: https://blogfilmes.onrender.com
+
+FIM DO PROJETO!!!
+
+
 
 
 
