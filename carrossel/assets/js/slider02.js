@@ -25,6 +25,5 @@ window.addEventListener("load", start);
 function start () {
     setInterval (() => {
         nextImage();
-    }, time)
-    
+    }, time)  
 }
