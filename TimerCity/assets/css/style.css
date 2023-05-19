@@ -1,0 +1,124 @@
+.main {
+    width: 100vw;
+    height: 100vh;
+    background: var(--quatroHoras);
+    position: relative;
+    animation: horaDoDia 48s infinite
+    /* animation: teste 24s infinite; */
+}
+
+.main img {
+    position: absolute;
+    width: 110vw;
+    height: 70vh;
+    left: -50px;
+    top: calc(100% - 66.5vh);
+}
+
+@keyframes teste {
+    from {
+        background: var(--umaHora);
+    }
+
+    to {
+        background: var(--dozeHoras);
+    }
+}
+
+@keyframes horaDoDia {
+    0% {
+        background: var(--umaHora);
+    }
+
+    4.16% {
+        background: var(--duasHoras);
+    }
+
+    8.32% {
+        background: var(--tresHoras);
+    }
+
+    12.48% {
+        background: var(--quatroHoras);
+    }
+
+    16.64% {
+        background: var(--cincoHoras);
+    }
+
+    20.8% {
+        background: var(--seisHoras);
+    }
+
+    24.96% {
+        background: var(--seteHoras);
+    }
+
+    29.12% {
+        background: var(--oitoHoras);
+    }
+
+    33.28% {
+        background: var(--noveHoras);
+    }
+
+    37.44% {
+        background: var(--dezHoras);
+    }
+
+    41.6% {
+        background: var(--onzeHoras);
+    }
+
+    45.76% {
+        background: var(--dozeHoras);
+    }
+
+    49.92% {
+        background: var(--trezeHoras);
+    }
+
+    54.08% {
+        background: var(--quatorzeHoras);
+    }
+
+    58.24% {
+        background: var(--quinzeHoras);
+    }
+
+    62.4% {
+        background: var(--dezesseisHoras);
+    }
+
+    66.56% {
+        background: var(--dezesseteHoras);
+    }
+
+    70.72% {
+        background: var(--dezoitoHoras);
+    }
+
+    74.88% {
+        background: var(--dezenoveHoras);
+    }
+
+    79.04% {
+        background: var(--vinteHoras);
+    }
+
+    83.2% {
+        background: var(--vinteUmaHoras);
+    }
+
+    87.36% {
+        background: var(--vinteDuasHoras);
+    }
+
+    91.52% {
+        background: var(--vinteTresHoras);
+    }
+
+    100% {
+        background: var(--vinteQuatroHoras);
+    }
+}

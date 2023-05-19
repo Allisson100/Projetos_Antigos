@@ -1,0 +1,81 @@
+:root {
+    /* Horários do dia */
+
+    /* 01h00 */
+    --umaHora: #00000c;
+
+    /* 02h00 */
+    --duasHoras: #20202c;
+
+    /* 03h00 */
+    --tresHoras:  #3a3a52;
+
+    /* 04h00 */
+    --quatroHoras: #515175;
+
+    /* 05h00 */
+    --cincoHoras: #8a76ab;
+
+    /* 06h00 */
+    --seisHoras: #cd82a0;
+
+    /* 07h00 */
+    --seteHoras: #eab0d1;
+
+    /* 08h00 */
+    --oitoHoras:  #b1b5ea;
+
+    /* 09h00 */
+    --noveHoras:  #82addb;
+    
+    /* 10h00 */
+    --dezHoras:  #94dfff;
+
+    /* 11h00 */
+    --onzeHoras:  #67d1fb;
+
+    /* 12h00 */
+    --dozeHoras: #42b2e2;
+
+    /* 13h00 */
+    --trezeHoras: #38a3d1;
+
+    /* 14h00 */
+    --quatorzeHoras:  #38a3d1;
+
+    /* 15h00 */
+    --quinzeHoras: #2a7ebe;
+
+    /* 16h00 */
+    --dezesseisHoras: #246fa8;
+
+    /* 17h00 */
+    --dezesseteHoras: #e9ce5d;
+
+    /* 18h00 */
+    --dezoitoHoras: #b26339;
+
+    /* 19h00 */
+    --dezenoveHoras:  #8A3B12;
+
+    /* 20h00 */
+    --vinteHoras: #2F1107;
+
+    /* 21h00 */
+    --vinteUmaHoras: #150800;
+
+    /* 22h00 */
+    --vinteDuasHoras: #00000c;
+
+    /* 23h00 */
+    --vinteTresHoras: #00000c;
+
+    /* 24h00 */
+    --vinteQuatroHoras: #00000c;
+    
+}
+
+body {
+    overflow: hidden;
+}
+
