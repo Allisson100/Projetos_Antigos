@@ -12,14 +12,26 @@
     <link rel="stylesheet" href="./assets/css/root.css">
 
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/clock.css">
 
 
 </head>
 <body>
-    
-    <div class="main">
-        <img src="./assets/img/cidade-semfundo.png" alt="">
+    <div class="main" id="main">
+        <div class="clock" id="clock">
+            00:00:00
+        </div>       
+        <img class="city" src="./assets/img/cidade-semfundo.png" alt="">
+        <img class="sun" id="sun" src="./assets/img/sol-semfundo.png" alt="Sol">
+        <img class="moon" id="moon" src="./assets/img/lua-semfundo.png" alt="Lua">
+        <img class="stars" id="starOne" src="./assets/img/estrelas-semfundo.png" alt="estrelas">
+        <img class="stars-two" id="starTwo" src="./assets/img/estrelas-semfundo.png" alt="estrelas">
+        <img class="stars-three" id="starThree" src="./assets/img/estrelas-semfundo.png" alt="estrelas">
+        <img class="cloud" id="cloud" src="./assets/img/nuvem-semfundo.png" alt="">
     </div>
+
+    <script src="./assets/js/index.js" type="module"></script>
+    <script src="./assets/js/clock.js" type="module"></script>
 
 </body>
 </html>

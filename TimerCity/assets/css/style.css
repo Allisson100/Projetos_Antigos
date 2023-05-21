@@ -1,27 +1,494 @@
 .main {
-    width: 100vw;
+    animation: "";
+    background: var(--dozeHoras);
     height: 100vh;
-    background: var(--quatroHoras);
+    overflow: hidden;
     position: relative;
-    animation: horaDoDia 48s infinite
-    /* animation: teste 24s infinite; */
+    width: 100vw;
 }
 
-.main img {
-    position: absolute;
-    width: 110vw;
+.main .city {
     height: 70vh;
     left: -50px;
+    position: absolute;
     top: calc(100% - 66.5vh);
+    width: 110vw;
+    z-index: 3;
 }
 
-@keyframes teste {
+.main .sun {
+    animation: "";
+    left: 100%;
+    position: absolute;
+    top: 40%;
+    width: 15%;
+    z-index: 2;
+}
+
+.main .moon {
+    animation: "";
+    left: 100%;
+    position: absolute;
+    top: 40%;
+    width: 15%;
+    z-index: 2;
+}
+
+.main .stars {
+    animation: "";
+    left: -3%;
+    opacity: 0;
+    position: absolute;
+    top: -3%;
+    width: 50vw;
+    z-index: 1  ;
+}
+
+.main .stars-two {
+    animation: "";
+    left: 42%;
+    opacity: 0;
+    position: absolute;
+    top: -3%;
+    width: 50vw;
+}
+
+.main .stars-three {
+    animation: "";
+    left: 85%;
+    opacity: 0;
+    position: absolute;
+    top: -9%;
+    transform: rotate(-10deg);
+    width: 50vw;
+}
+
+.main .cloud {
+    animation: '';
+    left: -30%;
+    position: absolute;
+    width: 30vw;
+    z-index: 3;
+}
+
+/* Animção nuvem */
+@keyframes cloud {
+    from {
+        left: -30%;
+    }
+
+    to {
+        left: 100%
+    }
+}
+
+/* Animação para estrelas aparecendo */
+@keyframes opacityOne {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Animação para estrelas sumindo */
+@keyframes opacityZero {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* Animação para Sol e Lua que são trocados no JS */
+
+@keyframes Seis-Sete {
+    from {
+        top: 40% ;
+        left: 100%;
+    } 
+
+    to {
+        top: 33.4%;
+        left: 90.5%;
+    }
+}
+
+@keyframes Sete-Oito {
+    from {
+        top: 33.4%;
+        left: 90.5%;
+    }
+
+    to {
+        top: 26.8%; 
+        left: 81%;
+    }
+}
+
+@keyframes Oito-Nove {
+    from {
+        top: 26.8%; 
+        left: 81%;
+    }
+
+    to {
+        top: 20.2%;
+        left: 71.5%;
+    }
+}
+
+@keyframes Nove-Dez {
+    from {
+        top: 20.2%;
+        left: 71.5%;
+    }
+
+    to {
+        top: 13.6%; 
+        left: 62%;
+    }
+}
+
+@keyframes Dez-Onze {
+    from {
+        top: 13.6%; 
+        left: 62%;
+    }
+
+    to {
+        top: 7%;
+        left: 52.5%;
+    }
+}
+
+@keyframes Onze-Doze {
+    from {
+        top: 7%;
+        left: 52.5%;
+    }
+
+    to {
+        top: 0%;
+        left: 42.5%;
+    }
+}
+
+@keyframes Doze-Treze {
+    from {
+        top: 0%;
+        left: 42.5%;
+    }
+
+    to {
+        top: 7%;
+        left: 33%;
+    }
+}
+
+@keyframes Treze-Quatorze {
+    from {
+        top: 7%;
+        left: 33%;
+    }
+
+    to {
+        top: 13.6%; 
+        left: 23.5%;
+    }
+}
+
+@keyframes Quatorze-Quinze {
+    from {
+        top: 13.6%; 
+        left: 23.5%;
+    }
+
+    to {
+        top: 20.2%; 
+        left: 14%;
+    }
+}
+
+@keyframes Quinze-Dezesseis {
+    from {
+        top: 20.2%; 
+        left: 14%;
+    }
+
+    to {
+        top: 26.8%;
+        left: 4.5%;
+    }
+}
+
+@keyframes Dezesseis-Dezessete {
+    from {
+        top: 26.8%;
+        left: 4.5%;
+    }
+
+    to {
+        top: 33.4%;
+        left: -5%;
+    }
+}
+
+@keyframes Dezessete-Dezoito {
+    from {
+        top: 33.4%;
+        left: -5%;
+    }
+
+    to {
+        top: 40%; 
+        left: -15%;
+    }
+}
+
+/* Animações das 24hrs do dia */
+
+@keyframes UmaDuas {
     from {
         background: var(--umaHora);
     }
 
     to {
+        background: var(--duasHoras);
+    }
+}
+
+@keyframes DuasTres {
+    from {
+        background: var(--duasHoras);
+    }
+
+    to {
+        background: var(--tresHoras);
+    }
+}
+
+@keyframes TresQuatro {
+    from {
+        background: var(--tresHoras);
+    }
+
+    to {
+        background: var(--quatroHoras);
+    }
+}
+
+@keyframes QuatroCinco {
+    from {
+        background: var(--quatroHoras);
+    }
+
+    to {
+        background: var(--cincoHoras);
+    }
+}
+
+@keyframes CincoSeis {
+    from {
+        background: var(--cincoHoras);
+    }
+
+    to {
+        background: var(--seisHoras);
+    }
+}
+
+@keyframes SeisSete {
+    from {
+        background: var(--seisHoras);
+    }
+
+    to {
+        background: var(--seteHoras);
+    }
+}
+
+@keyframes SeteOito {
+    from {
+        background: var(--seteHoras);
+    }
+
+    to {
+        background: var(--oitoHoras);
+    }
+}
+
+@keyframes OitoNove {
+    from {
+        background: var(--oitoHoras);
+    }
+
+    to {
+        background: var(--noveHoras);
+    }
+}
+
+@keyframes NoveDez {
+    from {
+        background: var(--noveHoras);
+    }
+
+    to {
+        background: var(--dezHoras);
+    }
+}
+
+@keyframes DezOnze {
+    from {
+        background: var(--dezHoras);
+    }
+
+    to {
+        background: var(--onzeHoras);
+    }
+}
+
+@keyframes OnzeDoze {
+    from {
+        background: var(--onzeHoras);
+    }
+
+    to {
         background: var(--dozeHoras);
+    }
+}
+
+@keyframes DozeTreze {
+    from {
+        background: var(--dozeHoras);
+    }
+
+    to {
+        background: var(--trezeHoras);
+    }
+}
+
+@keyframes TrezeQuatorze {
+    from {
+        background: var(--trezeHoras);
+    }
+
+    to {
+        background: var(--quatorzeHoras);
+    }
+}
+
+@keyframes QuatorzeQuinze {
+    from {
+        background: var(--quatorzeHoras);
+    }
+
+    to {
+        background: var(--quinzeHoras);
+    }
+}
+
+@keyframes QuinzeDezesseis {
+    from {
+        background: var(--quinzeHoras);
+    }
+
+    to {
+        background: var(--dezesseisHoras);
+    }
+}
+
+@keyframes DezesseisDezessete {
+    from {
+        background: var(--dezesseisHoras);
+    }
+
+    to {
+        background: var(--dezesseteHoras);
+    }
+}
+
+@keyframes DezesseteDezoito {
+    from {
+        background: var(--dezesseteHoras);
+    }
+
+    to {
+        background: var(--dezoitoHoras);
+    }
+}
+
+@keyframes DezoitoDezenove {
+    from {
+        background: var(--dezoitoHoras);
+    }
+
+    to {
+        background: var(--dezenoveHoras);
+    }
+}
+
+@keyframes DezenoveVinte {
+    from {
+        background: var(--dezenoveHoras);
+    }
+
+    to {
+        background: var(--vinteHoras);
+    }
+}
+
+@keyframes VinteVinteUma {
+    from {
+        background: var(--vinteHoras);
+    }
+
+    to {
+        background: var(--vinteUmaHoras);
+    }
+}
+
+@keyframes VinteUmaVinteDuas {
+    from {
+        background: var(--vinteUmaHoras);
+    }
+
+    to {
+        background: var(--vinteDuasHoras);
+    }
+}
+
+@keyframes VinteDuasVinteTres {
+    from {
+        background: var(--vinteDuasHoras);
+    }
+
+    to {
+        background: var(--vinteTresHoras);
+    }
+}
+
+@keyframes VinteTresVinteQuatro {
+    from {
+        background: var(--vinteTresHoras);
+    }
+
+    to {
+        background: var(--vinteQuatroHoras);
+    }
+}
+
+@keyframes VinteQuatroUma {
+    from {
+        background: var(--vinteQuatroHoras);
+    }
+
+    to {
+        background: var(--umaHora);
     }
 }
 
@@ -122,3 +589,4 @@
         background: var(--vinteQuatroHoras);
     }
 }
+

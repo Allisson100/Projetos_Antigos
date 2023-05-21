@@ -1,0 +1,48 @@
+.clock {
+    background-color: rgba(211, 211, 211, .5);
+    border-bottom: 3px solid white;
+    border-left: 3px solid white;
+    border-radius: .5rem;
+    border-right: 3px solid white;
+    color: black;
+    font-size: 6rem;
+    font-weight: bold;
+    left: calc(50% - 12rem);
+    padding: 2rem;
+    position: absolute;
+    text-align: center;
+    top: 5%;
+    width: 30%;
+    z-index: 5;
+}
+
+@media screen and (min-width: 851px) and (max-width: 1200px) {
+    .clock {
+        font-size: 4rem;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .clock {
+        font-size: 2rem;
+    }
+}
+
+@media screen and (min-width: 601px) and (max-width: 800px) {
+    .clock {
+        left: calc(50% - 8rem);
+    }
+}
+
+@media screen and (min-width: 401px) and (max-width: 600px) {
+    .clock {
+        left: calc(50% - 7rem);
+    }
+}
+
+@media screen and (min-width: 0px) and (max-width: 400px) {
+    .clock {
+        left: calc(50% - 5rem);
+        font-size: 1rem;
+    }
+}
