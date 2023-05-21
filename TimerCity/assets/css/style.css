@@ -71,6 +71,29 @@
     z-index: 3;
 }
 
+@media screen and (max-width: 1000px) {
+    .main .city {
+        display: none;
+    }
+
+    .main .moon {
+        width: 40%;
+    }
+
+    .main .stars {
+        width: 200vw;
+        height: 100vh;
+    }
+
+    .main .stars-two {
+        display: none;
+    }
+
+    .main .stars-three {
+        display: none;
+    }
+}
+
 /* Animção nuvem */
 @keyframes cloud {
     from {
